@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.1 2003/11/11 23:54:47 luis Exp $
+/* $Id: aes.c,v 1.1.1.1 2003/11/11 23:54:47 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.1 2003/11/11 23:54:47 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.1.1.1 2003/11/11 23:54:47 luis Exp $\n";
 
 /* functions */
 
@@ -66,4 +66,4 @@ static int gf28_mult(int x, int y)
 	return ac;
 } /* mult */
 
-/* $Id: aes.c,v 1.1 2003/11/11 23:54:47 luis Exp $ */
+/* $Id: aes.c,v 1.1.1.1 2003/11/11 23:54:47 luis Exp $ */

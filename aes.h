@@ -1,4 +1,4 @@
-/* $Id: aes.h,v 1.13 2003/12/02 00:44:43 luis Exp $
+/* $Id: aes.h,v 1.14 2003/12/02 01:18:12 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:25:04 MET 2003
  *
@@ -24,7 +24,7 @@
 #ifndef AES_H
 #define AES_H
 
-static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.13 2003/12/02 00:44:43 luis Exp $\n";
+static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.14 2003/12/02 01:18:12 luis Exp $\n";
 
 /* constants */
 #define AES_MAX(x,y) (((x)>(y))?(x):(y))
@@ -45,16 +45,8 @@ void aes_PrintState(AES_BYTE *b, int Nb); /* test ok */
 void aes_SubBytes(AES_BYTE *b, int Nb); /* test ok */
 void aes_InvSubBytes(AES_BYTE *b, int Nb); /* test ok */
 
-void aes_ShiftRows4(AES_BYTE *b); /* test ok */
-void aes_InvShiftRows4(AES_BYTE *b); /* test ok */
-void aes_ShiftRows5(AES_BYTE *b); /* test ok */
-void aes_InvShiftRows5(AES_BYTE *b); /* test ok */
-void aes_ShiftRows6(AES_BYTE *b); /* test ok */
-void aes_InvShiftRows6(AES_BYTE *b); /* test ok */
-void aes_ShiftRows7(AES_BYTE *b); /* test ok */
-void aes_InvShiftRows7(AES_BYTE *b); /* test ok */
-void aes_ShiftRows8(AES_BYTE *b); /* test ok */
-void aes_InvShiftRows8(AES_BYTE *b); /* test ok */
+void aes_ShiftRows(AES_BYTE *b, int Nb); /* test ok */
+void aes_InvShiftRows(AES_BYTE *b, int Nb); /* test ok */
 
 void aes_MixColumns(AES_BYTE *b, int Nb); /* test ok */
 void aes_InvMixColumns(AES_BYTE *b, int Nb); /* test ok */
@@ -71,4 +63,4 @@ void aes_InvCipher(AES_BYTE *b, int Nb, int Nk, AES_BYTE *eKey); /* test ok */
  * protected against double inclusion from other files.
  */
 
-/* $Id: aes.h,v 1.13 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: aes.h,v 1.14 2003/12/02 01:18:12 luis Exp $ */

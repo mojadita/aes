@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.12 2003/12/02 00:44:43 luis Exp $
+/* $Id: aes.c,v 1.13 2003/12/02 01:18:12 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -35,7 +35,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.12 2003/12/02 00:44:43 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.13 2003/12/02 01:18:12 luis Exp $\n";
 
 /* functions */
 
@@ -66,18 +66,7 @@ void aes_Cipher(AES_BYTE *b, int Nb, int Nk, AES_BYTE *eKey)
 		fprintf(stderr, "#%d: Tras SubBytes:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
-		switch(Nb) {
-		case 4: aes_ShiftRows4(b); break;
-		case 5: aes_ShiftRows5(b); break;
-		case 6: aes_ShiftRows6(b); break;
-		case 7: aes_ShiftRows7(b); break;
-		case 8: aes_ShiftRows8(b); break;
-		default:
-			fprintf(stderr, __FILE__"(%d): aes_Cipher: Nb not in {4..8} (%d)\n",
-				__LINE__, Nb);
-			fflush(stderr);
-			abort();
-		} /* switch */
+		aes_ShiftRows(b, Nb);
 #if DEBUG
 		fprintf(stderr, "#%d: Tras ShiftRows:\n", i+1);
 		aes_PrintState(b, Nb);
@@ -134,18 +123,7 @@ void aes_InvCipher(AES_BYTE *b, int Nb, int Nk, AES_BYTE *eKey)
 			aes_PrintState(b, Nb);
 #endif
 		} /* if */
-		switch(Nb) {
-		case 4: aes_InvShiftRows4(b); break;
-		case 5: aes_InvShiftRows5(b); break;
-		case 6: aes_InvShiftRows6(b); break;
-		case 7: aes_InvShiftRows7(b); break;
-		case 8: aes_InvShiftRows8(b); break;
-		default:
-			fprintf(stderr, __FILE__"(%d): aes_InvCipher: Nb not in {4..8} (%d)\n",
-				__LINE__, Nb);
-			fflush(stderr);
-			abort();
-		} /* switch */
+		aes_InvShiftRows(b, Nb);
 #if DEBUG
 		fprintf(stderr, "#%d: Tras InvShiftRows:\n", i+1);
 		aes_PrintState(b, Nb);
@@ -170,4 +148,4 @@ void aes_InvCipher(AES_BYTE *b, int Nb, int Nk, AES_BYTE *eKey)
 #endif
 } /* aes_InvCipher */
 
-/* $Id: aes.c,v 1.12 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: aes.c,v 1.13 2003/12/02 01:18:12 luis Exp $ */

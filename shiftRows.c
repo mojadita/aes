@@ -1,4 +1,4 @@
-/* $Id: shiftRows.c,v 1.5 2003/12/02 00:44:43 luis Exp $
+/* $Id: shiftRows.c,v 1.6 2003/12/02 01:18:12 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Sun Nov 23 01:04:51 MET 2003
  *
@@ -32,7 +32,7 @@
 /* prototypes */
 
 /* variables */
-static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.5 2003/12/02 00:44:43 luis Exp $\n";
+static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.6 2003/12/02 01:18:12 luis Exp $\n";
 
 /* functions */
 
@@ -60,54 +60,86 @@ static char C4[] = { 0, -1, -2, -4 };
 static char C5[] = { 0, 1, 3, 4 };
 static char C6[] = { 0, -1, -3, -4 };
 
-void aes_ShiftRows4(AES_BYTE *b) /* test ok */
+static void aes_ShiftRows4(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 4, C1);
 } /* aes_ShiftRows4 */
 
-void aes_InvShiftRows4(AES_BYTE *b) /* test ok */
+static void aes_InvShiftRows4(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 4, C2);
 } /* aes_InvShiftRows4 */
 
-void aes_ShiftRows5(AES_BYTE *b) /* test ok */
+static void aes_ShiftRows5(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 5, C1);
 } /* aes_ShiftRows5 */
 
-void aes_InvShiftRows5(AES_BYTE *b) /* test ok */
+static void aes_InvShiftRows5(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 5, C2);
 } /* aes_InvShiftRows5 */
 
-void aes_ShiftRows6(AES_BYTE *b) /* test ok */
+static void aes_ShiftRows6(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 6, C1);
 } /* aes_ShiftRows6 */
 
-void aes_InvShiftRows6(AES_BYTE *b) /* test ok */
+static void aes_InvShiftRows6(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 6, C2);
 } /* aes_InvShiftRows4 */
 
-void aes_ShiftRows7(AES_BYTE *b) /* test ok */
+static void aes_ShiftRows7(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 7, C3);
 } /* aes_ShiftRows8 */
 
-void aes_InvShiftRows7(AES_BYTE *b) /* test ok */
+static void aes_InvShiftRows7(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 7, C4);
 } /* aes_InvShiftRows8 */
 
-void aes_ShiftRows8(AES_BYTE *b) /* test ok */
+static void aes_ShiftRows8(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 8, C5);
 } /* aes_ShiftRows8 */
 
-void aes_InvShiftRows8(AES_BYTE *b) /* test ok */
+static void aes_InvShiftRows8(AES_BYTE *b) /* test ok */
 {
 	ShiftRows(b, 8, C6);
 } /* aes_InvShiftRows8 */
 
-/* $Id: shiftRows.c,v 1.5 2003/12/02 00:44:43 luis Exp $ */
+void aes_ShiftRows(AES_BYTE *b, int Nb)
+{
+	switch(Nb) {
+	case 4: aes_ShiftRows4(b); break;
+	case 5: aes_ShiftRows5(b); break;
+	case 6: aes_ShiftRows6(b); break;
+	case 7: aes_ShiftRows7(b); break;
+	case 8: aes_ShiftRows8(b); break;
+	default:
+		fprintf(stderr, "aes: "__FILE__"(%d): aes_ShiftRows() called with Nb not in {5..8}\n",
+			__LINE__);
+		fflush(stderr);
+		abort();
+	} /* switch */
+} /* aes_ShiftRows */
+
+void aes_InvShiftRows(AES_BYTE *b, int Nb)
+{
+	switch(Nb) {
+	case 4: aes_InvShiftRows4(b); break;
+	case 5: aes_InvShiftRows5(b); break;
+	case 6: aes_InvShiftRows6(b); break;
+	case 7: aes_InvShiftRows7(b); break;
+	case 8: aes_InvShiftRows8(b); break;
+	default:
+		fprintf(stderr, "aes: "__FILE__"(%d): aes_InvShiftRows() called with Nb not in {5..8}\n",
+			__LINE__);
+		fflush(stderr);
+		abort();
+	} /* switch */
+} /* aes_InvShiftRows */
+
+/* $Id: shiftRows.c,v 1.6 2003/12/02 01:18:12 luis Exp $ */

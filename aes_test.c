@@ -1,4 +1,4 @@
-/* $Id: aes_test.c,v 1.2 2003/12/02 01:18:12 luis Exp $
+/* $Id: aes_test.c,v 1.3 2003/12/02 01:19:38 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Dec  2 01:13:08 MET 2003
  *
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_TEST_C_RCSId[]="\n$Id: aes_test.c,v 1.2 2003/12/02 01:18:12 luis Exp $\n";
+static char AES_TEST_C_RCSId[]="\n$Id: aes_test.c,v 1.3 2003/12/02 01:19:38 luis Exp $\n";
 
 /* functions */
 
@@ -51,7 +51,7 @@ main()
 	int i, j;
 
 	static AES_BYTE bl[] = {
-#if 0
+#if 1
 	0x00, 0x11, 0x22, 0x33,
 	0x44, 0x55, 0x66, 0x77,
 	0x88, 0x99, 0xaa, 0xbb,
@@ -72,7 +72,7 @@ main()
 #endif
 	};
 	static AES_BYTE cl[] = {
-#if 0
+#if 1
 	0x00, 0x01, 0x02, 0x03,
 	0x04, 0x05, 0x06, 0x07,
 	0x08, 0x09, 0x0a, 0x0b,
@@ -124,4 +124,4 @@ main()
 
 } /* main */
 
-/* $Id: aes_test.c,v 1.2 2003/12/02 01:18:12 luis Exp $ */
+/* $Id: aes_test.c,v 1.3 2003/12/02 01:19:38 luis Exp $ */

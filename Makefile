@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.9 2003/12/02 20:08:24 luis Exp $
+# $Id: Makefile,v 1.10 2003/12/08 22:07:18 luis Exp $
 # Author: Luis.Colorado@HispaLinux.ES
 # Date: Wed Nov 12 22:05:54 MET 2003
 
@@ -27,7 +27,7 @@ keyexp_test: $(keyexp_test_objs)
 	$(CC) $(LDFLAGS) -o keyexp_test $(keyexp_test_objs)
 
 aes_libs =
-aes_objs = main.o libaes.so
+aes_objs = main.o b64.o fprintbuf.o libaes.a
 aes: $(aes_objs)
 	$(CC) $(LDFLAGS) -o aes $(aes_objs) $(aes_libs)
 
@@ -64,4 +64,4 @@ $(libaes_so_objs) \
 aes.to keyExpansion.to \
 $(aes_objs): aes.h
 
-# $Id: Makefile,v 1.9 2003/12/02 20:08:24 luis Exp $
+# $Id: Makefile,v 1.10 2003/12/08 22:07:18 luis Exp $

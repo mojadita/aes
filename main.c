@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.4 2003/12/02 00:44:43 luis Exp $
+/* $Id: main.c,v 1.5 2003/12/08 22:07:18 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
@@ -34,6 +34,7 @@
 #include <unistd.h>
 #include <time.h>
 #include "aes.h"
+#include "b64.h"
 
 /* constants */
 #define C_FLAG	0x01
@@ -48,7 +49,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.4 2003/12/02 00:44:43 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.5 2003/12/08 22:07:18 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -60,7 +61,7 @@ struct {
 	AES_BYTE *eKey;
 	AES_BYTE *block;
 } cfg = {
-	C_FLAG | A_FLAG,
+	C_FLAG,
 	4,
 	4,
 	NULL,
@@ -96,36 +97,62 @@ void do_usage(void)
 "     Help. This help screen.\n"
 	);
 } /* do_usage */
-void procesa_bloque(int op, char *buffer, FILE *out)
+
+void procesa_cipher(b64_st *b64_ptr, char *buffer, FILE *out)
 {
 	if (cfg.flags & V_FLAG) {
-		fprintf(stderr, "aes:"__FILE__"(%d): procesa_bloque(...)\n",
+		fprintf(stderr, "aes:"__FILE__"(%d): procesa_cipher(...)\n",
 			__LINE__);
 	} /* if */
-	switch(op) {
-	case OP_CIPHER:
-		aes_Cipher((AES_BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey); break;
-	case OP_DECIPHER:
-		aes_InvCipher((AES_BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey); break;
-	default: abort();
-	} /* switch */
-	fwrite(buffer, cfg.Nb*AES_WS, 1, out);
-} /* procesa_bloque */
+
+	if (cfg.flags & V_FLAG)
+		fprintbuf(stderr, cfg.Nb*AES_WS, buffer, "Cifrando Bloque:");
+	aes_Cipher((AES_BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey);
+	if (cfg.flags & V_FLAG)
+		fprintbuf(stderr, cfg.Nb*AES_WS, buffer, "Bloque Cifrado:");
+
+	if (cfg.flags & A_FLAG) {
+		char buff_asc[100];
+		size_t n;
+		n = b64_code(b64_ptr, buffer, cfg.Nb*AES_WS, buff_asc);
+		fwrite(buff_asc, 1, n, out);
+	} else {
+		fwrite(buffer, 1, cfg.Nb*AES_WS, out);
+	} /* if */
+} /* procesa_cipher */
+
+void procesa_invcipher(char *buffer, FILE *out)
+{
+	if (cfg.flags & V_FLAG)
+		fprintbuf(stderr, cfg.Nb*AES_WS, buffer,
+			"Descifrando Bloque:");
+	aes_InvCipher(buffer, cfg.Nb, cfg.Nk, cfg.eKey);
+	if (cfg.flags & V_FLAG)
+		fprintbuf(stderr, cfg.Nb*AES_WS, buffer,
+			"Bloque Descifrado:");
+	fwrite(buffer, 1, cfg.Nb*AES_WS, out);
+} /* procesa_invcipher */
 
 void procesar(char *nomfich)
 {
 	FILE *in, *out;
 	char *nomout;
 	int op = 0;
-	int leidos;
-	char buffer[100];
+	size_t bs = AES_WS*cfg.Nb;
 
 	if (nomfich) {
+		char *naux = strdup(nomfich);
+		int i, l = strlen(naux);
+
+		/* pasamos nomfich a minúsculas, para comparar la extensión */
+		for (i = 0; i < l; i++)
+			naux[i] = tolower(naux[i]);
+
 		if (cfg.flags & V_FLAG) {
 			fprintf(stderr, "aes:"__FILE__"(%d):procesar(\"%s\");\n",
 				__LINE__, nomfich);
 		} /* if */
-		if (strcmp(nomfich + strlen(nomfich) - strlen(ext), ext) == 0) {
+		if (strcmp(naux + l - strlen(ext), ext) == 0) {
 			/* enciphered file, decrypt */
 			nomout = strdup(nomfich);
 			nomout[strlen(nomfich) - strlen(ext)] = '\0';
@@ -137,7 +164,7 @@ void procesar(char *nomfich)
 					__LINE__, nomfich, nomout);
 			} /* if */
 		} else {
-			nomout = malloc(strlen(nomfich)+strlen(ext)+1);
+			nomout = malloc(l+strlen(ext)+1);
 			sprintf(nomout, "%s%s", nomfich, ext);
 			op = OP_CIPHER;
 			if (cfg.flags & V_FLAG) {
@@ -147,6 +174,7 @@ void procesar(char *nomfich)
 					__LINE__, nomfich, nomout);
 			} /* if */
 		} /* if */
+		free(naux);
 		in = fopen(nomfich, "r");
 		if (!in) {
 			fprintf(stderr, "aes:"__FILE__"(%d):%s:%s(%d)\n",
@@ -173,27 +201,90 @@ void procesar(char *nomfich)
 					: "OP_DECIPHER");
 		} /* if */
 	} /* if */
-	while ((leidos = fread(buffer, 1, cfg.Nb*AES_WS, in)) == cfg.Nb*AES_WS) {
-		if (cfg.flags & V_FLAG) {
-			fprintf(stderr,
-				"aes:"__FILE__"(%d):procesar(...): lectura completa\n",
-				__LINE__);
-		} /* if */
-		procesa_bloque(op, buffer, out);
-	} /* while */
-	if (leidos > 0) {
-		int i;
 
-		if (cfg.flags & V_FLAG) {
-			fprintf(stderr,
-				"aes:"__FILE__"(%d):procesar(...): lectura incompleta (leidos == %d)\n",
-				__LINE__, leidos);
+	switch(op) {
+	case OP_CIPHER: {
+		size_t leidos = 0;
+		char buffer[8*AES_WS]; /* sizeof buffer debe ser mayor que bs */
+		b64_st b64;
+		int c;
+
+		if (cfg.flags & A_FLAG) {
+			b64_init(&b64);
 		} /* if */
-		for (i = leidos; i < cfg.Nb*AES_WS; i++) {
-			buffer[i] = 0;
-		} /* for */
-		procesa_bloque(op, buffer, out);
-	}
+
+		while ((c = fgetc(in)) != EOF) {
+			buffer[leidos++] = c;
+			if (leidos == bs) {
+				procesa_cipher(&b64, buffer, out);
+				leidos = 0;
+			} /* if */
+		} /* while */
+		if (leidos > 0) {
+			int i;
+	
+			for (i = leidos; i < bs; i++) {
+				buffer[i] = 0;
+			} /* for */
+			procesa_cipher(&b64, buffer, out);
+		} /* if */
+		if (cfg.flags & A_FLAG) {
+			char buffer[5]; /* como máximo 5 caracteres base64 */
+			size_t n;
+
+			n = b64_code_end(&b64, buffer);
+			fwrite(buffer, 1, n, out);
+		} /* if */
+		break;
+	} /* OP_CIPHER */
+
+	case OP_DECIPHER: {
+		size_t leidos = 0;
+		char *buffer = alloca(bs);
+		b64_st b64;
+		int c;
+
+		if (cfg.flags & A_FLAG) {
+			b64_init(&b64);
+		} /* if */
+
+		while ((c = fgetc(in)) != EOF) {
+			if(!(cfg.flags & A_FLAG)) { /* no base64, insertamos el caracter */
+				buffer[leidos++] = c;
+			} else { /* base64, procesamos */
+				char ca = c;
+				char cb;
+				size_t n;
+				n = b64_decode(&b64, &ca, 1, &cb);
+				if (n) {
+					buffer[leidos++] = cb;
+				} /* if */
+			} /* if */
+
+			if (leidos == bs) {
+				procesa_invcipher(buffer, out);
+				leidos = 0;
+			} /* if */
+		} /* while */
+		if (leidos > 0) {
+			int i;
+	
+			for (i = leidos; i < bs; i++) {
+				buffer[i] = 0;
+			} /* for */
+			procesa_invcipher(buffer, out);
+		} /* if */
+		break;
+	} /* OP_DECIPHER */
+
+	default:
+		fprintf(stderr, "aes:"__FILE__"(%d): "
+			"(op != OP_CIPHER(%d)) && (op != OP_DECIPHER(%d)); "
+			"(op == %d)\n",
+			__LINE__, OP_CIPHER, OP_DECIPHER, op);
+		fflush(stderr);
+		abort();
+	} /* switch */
 	if (nomfich) {
 		fclose(in); fclose(out);
 	} /* if */
@@ -260,4 +351,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.4 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: main.c,v 1.5 2003/12/08 22:07:18 luis Exp $ */

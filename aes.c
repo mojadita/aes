@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.6 2003/11/27 23:03:05 luis Exp $
+/* $Id: aes.c,v 1.7 2003/11/27 23:43:14 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -26,7 +26,7 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 0
+#define DEBUG 1
 #define MAIN 1
 
 /* types */
@@ -34,7 +34,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.6 2003/11/27 23:03:05 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.7 2003/11/27 23:43:14 luis Exp $\n";
 
 /* functions */
 
@@ -65,10 +65,12 @@ void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 #endif
 		switch(Nb) {
 		case 4: aes_ShiftRows4(b); break;
+		case 5: aes_ShiftRows5(b); break;
 		case 6: aes_ShiftRows6(b); break;
+		case 7: aes_ShiftRows7(b); break;
 		case 8: aes_ShiftRows8(b); break;
 		default:
-			fprintf(stderr, __FILE__"(%d): aes_Cipher: Nb not in {4, 6, 8} (%d)\n",
+			fprintf(stderr, __FILE__"(%d): aes_Cipher: Nb not in {4..8} (%d)\n",
 				__LINE__, Nb);
 			fflush(stderr);
 			abort();
@@ -127,10 +129,12 @@ void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 		} /* if */
 		switch(Nb) {
 		case 4: aes_InvShiftRows4(b); break;
+		case 5: aes_InvShiftRows5(b); break;
 		case 6: aes_InvShiftRows6(b); break;
+		case 7: aes_InvShiftRows7(b); break;
 		case 8: aes_InvShiftRows8(b); break;
 		default:
-			fprintf(stderr, __FILE__"(%d): aes_InvCipher: Nb not in {4, 6, 8} (%d)\n",
+			fprintf(stderr, __FILE__"(%d): aes_InvCipher: Nb not in {4..8} (%d)\n",
 				__LINE__, Nb);
 			fflush(stderr);
 			abort();
@@ -166,6 +170,10 @@ main()
 	0x88, 0x5a, 0x30, 0x8d,
 	0x31, 0x31, 0x98, 0xa2,
 	0xe0, 0x37, 0x07, 0x34,
+	0x42, 0xfe, 0x10, 0x08,
+	0x20, 0x46, 0xb3, 0x10,
+	0x64, 0x9b, 0xca, 0xff,
+	0x30, 0xff, 0xb3, 0x42,
 	};
 	static WORD clave1[] = {
 	{ { 0x2b, 0x7e, 0x15, 0x16, } },
@@ -219,7 +227,7 @@ main()
 	k1 = aes_KeyExpansion(clave1, 4, 4);
 	k2 = aes_KeyExpansion(clave2, 4, 4);
 	k3 = aes_KeyExpansion(clave3, 4, 6);
-	k4 = aes_KeyExpansion(clave4, 4, 8);
+	k4 = aes_KeyExpansion(clave4, 8, 8);
 
 	printf("***** BLOQUE A CIFRAR ******\n");
 	aes_PrintState(bloque1, 4);
@@ -277,6 +285,20 @@ main()
 	printf("=============================\n");
 	printf("/////////////////////////////\n");
 
+	printf("***** BLOQUE A CIFRAR ******\n");
+	aes_PrintState(bloque1, 8);
+	printf("============================\n");
+	aes_Cipher(bloque1, 8, 8, k4);
+	printf("***** BLOQUE CIFRADO *****\n");
+	aes_PrintState(bloque1, 8);
+	printf("============================\n");
+	printf("***** DESCIFRANDO *****\n");
+	aes_InvCipher(bloque1, 8, 8, k4);
+	printf("***** BLOQUE DESCIFRADO *****\n");
+	aes_PrintState(bloque1, 8);
+	printf("=============================\n");
+	printf("/////////////////////////////\n");
+
 	printf("***** LIBERANDO LA MEMORIA *****\n");
 	free(k1); free(k2); free(k3); free(k4);
 	printf("***** FIN DEL PROGRAMA *****\n");
@@ -284,4 +306,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: aes.c,v 1.6 2003/11/27 23:03:05 luis Exp $ */
+/* $Id: aes.c,v 1.7 2003/11/27 23:43:14 luis Exp $ */

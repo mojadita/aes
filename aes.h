@@ -1,4 +1,4 @@
-/* $Id: aes.h,v 1.3 2003/11/12 00:42:38 luis Exp $
+/* $Id: aes.h,v 1.4 2003/11/12 21:16:22 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:25:04 MET 2003
  *
@@ -24,7 +24,7 @@
 #ifndef AES_H
 #define AES_H
 
-static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.3 2003/11/12 00:42:38 luis Exp $\n";
+static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.4 2003/11/12 21:16:22 luis Exp $\n";
 
 /* constants */
 #define AES_POL 0x11b
@@ -33,7 +33,7 @@ static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.3 2003/11/12 00:42:38 luis Exp $\n
 typedef unsigned int AES_BYTE;
 
 /* prototypes */
-AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y); /* test ok */
+AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y, AES_BYTE pol); /* test ok */
 AES_BYTE aes_pow(AES_BYTE x, unsigned int n);
 
 #endif /* AES_H */
@@ -41,4 +41,4 @@ AES_BYTE aes_pow(AES_BYTE x, unsigned int n);
  * protected against double inclusion from other files.
  */
 
-/* $Id: aes.h,v 1.3 2003/11/12 00:42:38 luis Exp $ */
+/* $Id: aes.h,v 1.4 2003/11/12 21:16:22 luis Exp $ */

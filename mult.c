@@ -1,4 +1,4 @@
-/* $Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $
+/* $Id: mult.c,v 1.4 2003/11/12 21:16:22 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:26:05 MET 2003
  *
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char MULT_C_RCSId[]="\n$Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $\n";
+static char MULT_C_RCSId[]="\n$Id: mult.c,v 1.4 2003/11/12 21:16:22 luis Exp $\n";
 
 /* functions */
 
@@ -47,7 +47,7 @@ static char MULT_C_RCSId[]="\n$Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $\n
  * Los parámetros válidos de entrada son dos enteros x e y
  * tales que 0 <= x < 0x100, 0 <= y < 0x100.
  */
-AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y) /* test ok */
+AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y, AES_BYTE pol) /* test ok */
 {
 	int ac = 0x0;
 	int m = 0x80;
@@ -58,7 +58,7 @@ AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y) /* test ok */
 			ac ^= y;
 		} /* if */
 		if (ac & 0x100) { /* reducción módulo */
-			ac ^= AES_POL;
+			ac ^= pol;
 		} /* if */
 		m >>= 1;
 	} /* while */
@@ -66,4 +66,4 @@ AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y) /* test ok */
 	return ac;
 } /* mult */
 
-/* $Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $ */
+/* $Id: mult.c,v 1.4 2003/11/12 21:16:22 luis Exp $ */

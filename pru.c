@@ -15,7 +15,8 @@ main()
 				x, n);
 			continue;
 		} /* if */
-		printf("pow(0x%02x, %d) -> 0x%02x\n", x, n, aes_pow(x, n));
+		printf("aes_pow(0x%02x, %d) -> 0x%02x\n", x, n, aes_pow(x, n));
+		printf("aes_mult(0x%02x, %d) -> 0x%02x\n", x, n, aes_mult(x, n, AES_POL));
 	} /* for */
 	n = 254;
 	for (x = 0; x < 256; x++) {

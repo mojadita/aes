@@ -1,4 +1,4 @@
-/* $Id: pow.c,v 1.2 2003/11/12 00:42:38 luis Exp $
+/* $Id: pow.c,v 1.3 2003/11/12 21:16:22 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 12 01:01:06 MET 2003
  *
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char POW_C_RCSId[]="\n$Id: pow.c,v 1.2 2003/11/12 00:42:38 luis Exp $\n";
+static char POW_C_RCSId[]="\n$Id: pow.c,v 1.3 2003/11/12 21:16:22 luis Exp $\n";
 
 /* functions */
 
@@ -54,9 +54,9 @@ AES_BYTE aes_pow(AES_BYTE x, unsigned int n)
 	a = 1;
 	while (n) {
 		if (n & 1) {
-			a = aes_mult(a, x);
+			a = aes_mult(a, x, AES_POL);
 		} /* if */
-		x = aes_mult(x, x);
+		x = aes_mult(x, x, AES_POL);
 		n >>= 1;
 	} /* while */
 
@@ -66,4 +66,4 @@ AES_BYTE aes_pow(AES_BYTE x, unsigned int n)
 	return a;
 } /* aes_pow */
 
-/* $Id: pow.c,v 1.2 2003/11/12 00:42:38 luis Exp $ */
+/* $Id: pow.c,v 1.3 2003/11/12 21:16:22 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.6 2003/12/08 22:17:09 luis Exp $
+/* $Id: main.c,v 1.7 2003/12/08 22:21:32 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
@@ -49,7 +49,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.6 2003/12/08 22:17:09 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.7 2003/12/08 22:21:32 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -61,7 +61,7 @@ struct {
 	AES_BYTE *eKey;
 	AES_BYTE *block;
 } cfg = {
-	C_FLAG,
+	C_FLAG | A_FLAG,
 	4,
 	4,
 	NULL,
@@ -84,6 +84,7 @@ void do_usage(void)
 "     asked, via getpass(3).\n"
 "  -a Ascii output (in case of encipherment) or input (in case of decipherment)\n"
 "     (base64 coded output/input)\n"
+"  -A BINARY output (in case of encipherment) or input (in case of decipherment)\n"
 "  -b <number>\n"
 "     This option sets the Block Size in 4 byte words. The input file\n"
 "	 is padded with zero bytes until a full number of blocks is filled\n"
@@ -302,9 +303,10 @@ int main (int argc, char **argv)
 	int opt;
 	char theKey [100];
 
-	while ((opt = getopt(argc, argv, "ab:cdhk:p:v")) != EOF) {
+	while ((opt = getopt(argc, argv, "aAb:cdhk:p:v")) != EOF) {
 		switch(opt) {
 		case 'a': cfg.flags |= A_FLAG; break;
+		case 'A': cfg.flags &= ~A_FLAG; break;
 		case 'b': cfg.Nb = atoi(optarg); break;
 		case 'c': cfg.flags |= C_FLAG; break;
 		case 'd': cfg.flags &= ~C_FLAG; break;
@@ -353,4 +355,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.6 2003/12/08 22:17:09 luis Exp $ */
+/* $Id: main.c,v 1.7 2003/12/08 22:21:32 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.10 2003/11/30 00:26:27 luis Exp $
+/* $Id: aes.c,v 1.11 2003/11/30 00:49:27 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -34,7 +34,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.10 2003/11/30 00:26:27 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.11 2003/11/30 00:49:27 luis Exp $\n";
 
 /* functions */
 
@@ -46,6 +46,7 @@ void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 	
 	/* first round */
 #if DEBUG
+	fprintf(stderr, "==================\n");
 	fprintf(stderr, "Comienzo: Entrada:\n");
 	aes_PrintState(b, Nb);
 	fprintf(stderr, "Comienzo: Round Key Value:\n");
@@ -55,6 +56,7 @@ void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 	/* Nr rounds */
 	for (i = 0; i < Nr; i++) {
 #if DEBUG
+		fprintf(stderr, "==================\n");
 		fprintf(stderr, "#%d: Estado:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
@@ -94,8 +96,10 @@ void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 		aes_AddRoundKey(b, Nb, (BYTE *)rKey);
 	} /* for */
 #if DEBUG
+	fprintf(stderr, "==================\n");
 	fprintf(stderr, "FIN: Resultado:\n");
 	aes_PrintState(b, Nb);
+	fprintf(stderr, "==================\n");
 #endif
 	
 } /* aes_Cipher */
@@ -108,6 +112,7 @@ void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 
 	/* first round */
 #if DEBUG
+	fprintf(stderr, "==================\n");
 	fprintf(stderr, "Comienzo: Entrada:\n");
 	aes_PrintState(b, Nb);
 	fprintf(stderr, "Comienzo: Round Key Value:\n");
@@ -117,6 +122,7 @@ void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 	/* Nr rounds */
 	for (i = 0; i < Nr; i++) {
 #if DEBUG
+		fprintf(stderr, "==================\n");
 		fprintf(stderr, "#%d: Estado:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
@@ -156,8 +162,10 @@ void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 		aes_AddRoundKey(b, Nb, (BYTE *)rKey);
 	} /* for */
 #if DEBUG
+	fprintf(stderr, "==================\n");
 	fprintf(stderr, "FIN: Resultado:\n");
 	aes_PrintState(b, Nb);
+	fprintf(stderr, "==================\n");
 #endif
 } /* aes_InvCipher */
 
@@ -219,4 +227,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: aes.c,v 1.10 2003/11/30 00:26:27 luis Exp $ */
+/* $Id: aes.c,v 1.11 2003/11/30 00:49:27 luis Exp $ */

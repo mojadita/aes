@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.1 2003/11/29 10:44:25 luis Exp $
+/* $Id: main.c,v 1.2 2003/11/29 11:41:24 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
+#include <pwd.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -47,7 +48,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.1 2003/11/29 10:44:25 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.2 2003/11/29 11:41:24 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -206,6 +207,7 @@ int main (int argc, char **argv)
 	extern int optind;
 	extern char *optarg;
 	int opt;
+	char theKey [100];
 
 	while ((opt = getopt(argc, argv, "ab:cdhk:p:v")) != EOF) {
 		switch(opt) {
@@ -214,6 +216,7 @@ int main (int argc, char **argv)
 		case 'c': cfg.flags |= C_FLAG; break;
 		case 'd': cfg.flags &= ~C_FLAG; break;
 		case 'k': cfg.Nk = atoi(optarg); break;
+		case 'p': cfg.key = (WORD *)optarg; break;
 		case 'v': cfg.flags |= V_FLAG; break;
 		case 'h': default: cfg.flags |= H_FLAG; break;
 		} /* switch */
@@ -226,13 +229,23 @@ int main (int argc, char **argv)
 		do_usage();
 		exit(EXIT_FAILURE);
 	} /* if */
+
 	/* proceso de la clave */
-	cfg.key = getpass("Clave:");
-	cfg.eKey = aes_KeyExpansion(cfg.key, cfg.Nb, cfg.Nk);
+	if (!cfg.key) {
+		cfg.key = (WORD *)getpass("Clave:");
+	} /* if */
+	memset(theKey, '\0', sizeof theKey);
+	strncpy(theKey, (char *)cfg.key, cfg.Nk*AES_WS);
+
+	/* expansión de la clave */
+	cfg.eKey = aes_KeyExpansion((WORD *)theKey, cfg.Nb, cfg.Nk);
+
+	/* proceso de ficheros/stdin. */
 	argc -= optind; argv += optind;
 	if (argc) {
 		while (argc) {
 			procesar(argv[0]);
+			argc--; argv++;
 		} /* while */
 	} else {
 		procesar(NULL); /* stdin */
@@ -240,4 +253,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.1 2003/11/29 10:44:25 luis Exp $ */
+/* $Id: main.c,v 1.2 2003/11/29 11:41:24 luis Exp $ */

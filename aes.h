@@ -1,4 +1,4 @@
-/* $Id: aes.h,v 1.7 2003/11/17 11:30:34 luis Exp $
+/* $Id: aes.h,v 1.8 2003/11/26 18:25:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:25:04 MET 2003
  *
@@ -24,7 +24,7 @@
 #ifndef AES_H
 #define AES_H
 
-static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.7 2003/11/17 11:30:34 luis Exp $\n";
+static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.8 2003/11/26 18:25:43 luis Exp $\n";
 
 /* constants */
 #define AES_POL 0x11b
@@ -54,12 +54,20 @@ AES_BYTE aes_pow(AES_BYTE x, unsigned int n); /*test ok */
 
 AES_BYTE aes_SubByte(AES_BYTE n);
 AES_BYTE aes_InvSubByte(AES_BYTE n);
+
 void aes_SubBytes(BYTE *b, size_t n);
 void aes_InvSubBytes(BYTE *b, size_t n);
+
+void aes_ShiftRows4(BYTE *b);
+void aes_ShiftRows6(BYTE *b);
+void aes_ShiftRows8(BYTE *b);
+void aes_InvShiftRows4(BYTE *b);
+void aes_InvShiftRows6(BYTE *b);
+void aes_InvShiftRows8(BYTE *b);
 
 #endif /* AES_H */
 /* Do not include anything AFTER the line above, as it would not be
  * protected against double inclusion from other files.
  */
 
-/* $Id: aes.h,v 1.7 2003/11/17 11:30:34 luis Exp $ */
+/* $Id: aes.h,v 1.8 2003/11/26 18:25:43 luis Exp $ */

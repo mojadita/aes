@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.4 2003/11/27 00:55:09 luis Exp $
+/* $Id: aes.c,v 1.5 2003/11/27 07:31:26 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -33,7 +33,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.4 2003/11/27 00:55:09 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.5 2003/11/27 07:31:26 luis Exp $\n";
 
 /* functions */
 
@@ -82,6 +82,7 @@ void aes_Cipher(BYTE *b, int Nb, BYTE *k, int Nk)
 	} /* for */
 	printf("Resultado:\n");
 	aes_PrintState(b, Nb);
+	free(eKey);
 	
 } /* aes_Cipher */
 
@@ -151,4 +152,4 @@ main()
 	aes_Cipher(bloque4, 4, clave4, 8);
 }
 
-/* $Id: aes.c,v 1.4 2003/11/27 00:55:09 luis Exp $ */
+/* $Id: aes.c,v 1.5 2003/11/27 07:31:26 luis Exp $ */

@@ -4,7 +4,7 @@
 
 main()
 {
-	AES_BYTE i, j, x;
+	AES_INT i, j, x;
 
 	x = 0x00;
 	for (i = 0; i < 0x10; i++) {

@@ -1,4 +1,4 @@
-/* $Id: pow.c,v 1.3 2003/11/12 21:16:22 luis Exp $
+/* $Id: pow.c,v 1.4 2003/12/02 00:44:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 12 01:01:06 MET 2003
  *
@@ -38,15 +38,15 @@
 /* prototypes */
 
 /* variables */
-static char POW_C_RCSId[]="\n$Id: pow.c,v 1.3 2003/11/12 21:16:22 luis Exp $\n";
+static char POW_C_RCSId[]="\n$Id: pow.c,v 1.4 2003/12/02 00:44:43 luis Exp $\n";
 
 /* functions */
 
 /* Esta función calcula potencias en campos GF(2^8) con la multiplicación
  * definida por aes_mult() */
-AES_BYTE aes_pow(AES_BYTE x, unsigned int n)
+AES_INT aes_pow(AES_INT x, unsigned int n)
 {
-	AES_BYTE a;
+	AES_INT a;
 
 #if DEBUG
 	printf(">>> aes_pow(0x%02x, %d)\n", x, n);
@@ -66,4 +66,4 @@ AES_BYTE aes_pow(AES_BYTE x, unsigned int n)
 	return a;
 } /* aes_pow */
 
-/* $Id: pow.c,v 1.3 2003/11/12 21:16:22 luis Exp $ */
+/* $Id: pow.c,v 1.4 2003/12/02 00:44:43 luis Exp $ */

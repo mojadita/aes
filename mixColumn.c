@@ -1,4 +1,4 @@
-/* $Id: mixColumn.c,v 1.2 2003/11/27 00:55:09 luis Exp $
+/* $Id: mixColumn.c,v 1.3 2003/12/02 00:44:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 19:28:42 MET 2003
  *
@@ -26,27 +26,32 @@
 #include "aes.h"
 
 /* constants */
+#ifndef DEBUG
 #define DEBUG 1
+#endif
+
+#ifndef MAIN
 #define MAIN 0
+#endif
 
 /* types */
 
 /* prototypes */
 
 /* variables */
-static char MIXCOLUMN_C_RCSId[]="\n$Id: mixColumn.c,v 1.2 2003/11/27 00:55:09 luis Exp $\n";
+static char MIXCOLUMN_C_RCSId[]="\n$Id: mixColumn.c,v 1.3 2003/12/02 00:44:43 luis Exp $\n";
 
-static BYTE pol1[] = { 0x02, 0x01, 0x01, 0x03 };
-static BYTE pol2[] = { 0x0e, 0x09, 0x0d, 0x0b };
+static AES_BYTE pol1[] = { 0x02, 0x01, 0x01, 0x03 };
+static AES_BYTE pol2[] = { 0x0e, 0x09, 0x0d, 0x0b };
 
 /* functions */
 
 /* multiplies mod x^4 + 1 two words */
-static void MC(BYTE *b1, BYTE *b2)
+static void MC(AES_BYTE *b1, AES_BYTE *b2)
 {
-	BYTE mat[AES_WS][AES_WS];
+	AES_BYTE mat[AES_WS][AES_WS];
 	int i, j, k;
-	BYTE res[AES_WS];
+	AES_BYTE res[AES_WS];
 
 	/* let's construct the matrix */
 	for (i = 0; i < AES_WS; i++) {
@@ -61,7 +66,7 @@ static void MC(BYTE *b1, BYTE *b2)
 	for (i = 0; i < AES_WS; i++) {
 		res[i] = 0x00;
 		for (j = 0; j < AES_WS; j++) {
-			res[i] ^= aes_mult(mat[i][j], b1[j], 0x11b);
+			res[i] ^= aes_mult(mat[i][j], b1[j], AES_POL);
 		} /* for */
 	} /* for */
 
@@ -72,7 +77,7 @@ static void MC(BYTE *b1, BYTE *b2)
 
 } /* MC */
 
-static void MCs(BYTE *b, int Nb, BYTE *p)
+static void MCs(AES_BYTE *b, int Nb, AES_BYTE *p)
 {
 	int i;
 	for (i = 0; i < Nb; i++) {
@@ -81,12 +86,12 @@ static void MCs(BYTE *b, int Nb, BYTE *p)
 	} /* for */
 } /* MCs */
 
-void aes_MixColumns(BYTE *b, int Nb)
+void aes_MixColumns(AES_BYTE *b, int Nb)
 {
 	MCs(b, Nb, pol1);
 } /* aes_MixColumns */
 
-void aes_InvMixColumns(BYTE *b, int Nb)
+void aes_InvMixColumns(AES_BYTE *b, int Nb)
 {
 	MCs(b, Nb, pol2);
 } /* aes_InvMixColumns */
@@ -94,7 +99,7 @@ void aes_InvMixColumns(BYTE *b, int Nb)
 #if MAIN
 main()
 {
-	static BYTE b[] = {
+	static AES_BYTE b[] = {
 		0xd4, 0xbf, 0x5d, 0x30,
 		0xe0, 0xb4, 0x52, 0xae,
 		0xb8, 0x41, 0x11, 0xf1,
@@ -109,4 +114,4 @@ main()
 #endif
 
 	
-/* $Id: mixColumn.c,v 1.2 2003/11/27 00:55:09 luis Exp $ */
+/* $Id: mixColumn.c,v 1.3 2003/12/02 00:44:43 luis Exp $ */

@@ -1,6 +1,6 @@
-/* $Id: print.c,v 1.4 2003/12/02 00:44:43 luis Exp $
+/* $Id: keyExpansion_test.c,v 1.1 2003/12/02 00:44:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
- * Date: Thu Nov 27 01:08:15 MET 2003
+ * Date: Tue Dec  2 01:14:38 MET 2003
  *
  * Disclaimer:
  *  This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#define IN_PRINT_C
+#define IN_KEYESPANSION_TEST_C
 
 /* Standard include files */
 #include <sys/types.h>
@@ -38,34 +38,40 @@
 /* prototypes */
 
 /* variables */
-static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.4 2003/12/02 00:44:43 luis Exp $\n";
+static char KEYESPANSION_TEST_C_RCSId[]="\n$Id: keyExpansion_test.c,v 1.1 2003/12/02 00:44:43 luis Exp $\n";
 
 /* functions */
 
-static void print_raya(int Nb) /* test ok */
+/* main program */
+main()
 {
-	register int i;
+	AES_BYTE key4[] = {
+		0x2b, 0x7e, 0x15, 0x16,
+		0x28, 0xae, 0xd2, 0xa6,
+		0xab, 0xf7, 0x15, 0x88,
+		0x09, 0xcf, 0x4f, 0x3c,	
+	};
+	AES_BYTE key6[] = {
+		0x8e, 0x73, 0xb0, 0xf7,
+		0xda, 0x0e, 0x64, 0x52,
+		0xc8, 0x10, 0xf3, 0x2b,
+		0x80, 0x90, 0x79, 0xe5,
+		0x62, 0xf8, 0xea, 0xd2,
+		0x52, 0x2c, 0x6b, 0x7b,
+	};
+	AES_BYTE key8[] = {
+		0x60, 0x3d, 0xeb, 0x10,
+		0x15, 0xca, 0x71, 0xbe,
+		0x2b, 0x73, 0xae, 0xf0,
+		0x85, 0x7d, 0x77, 0x81,
+		0x1f, 0x35, 0x2c, 0x07,
+		0x3b, 0x61, 0x08, 0xd7,
+		0x2d, 0x98, 0x10, 0xa3,
+		0x09, 0x14, 0xdf, 0xf4,
+	};
+	aes_KeyExpansion(key4, 4, 4);
+	aes_KeyExpansion(key6, 4, 6);
+	aes_KeyExpansion(key8, 4, 8);
+} /* main */
 
-	fprintf(stderr, "+");
-	for (i = 0; i < Nb; i++)
-		fprintf(stderr, "--+");
-	fprintf(stderr, "\n");
-} /* print_raya */
-
-void aes_PrintState(AES_BYTE *b, int Nb) /* test ok */
-{
-	register int i, j;
-
-	print_raya(Nb);
-	for(i=0; i<AES_WS; i++){
-		fprintf(stderr, "|");
-		for(j=0; j<Nb; j++)
-			fprintf(stderr, "%02x|", b[j*AES_WS+i]);
-		fprintf(stderr, "\n");
-		print_raya(Nb);
-	} /* for */
-	fprintf(stderr, "\n");
-
-} /* aes_PrintState */
-
-/* $Id: print.c,v 1.4 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: keyExpansion_test.c,v 1.1 2003/12/02 00:44:43 luis Exp $ */

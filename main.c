@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.3 2003/11/29 22:02:04 luis Exp $
+/* $Id: main.c,v 1.4 2003/12/02 00:44:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
@@ -48,7 +48,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.3 2003/11/29 22:02:04 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.4 2003/12/02 00:44:43 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -56,9 +56,9 @@ struct {
 	int flags;
 	int Nk;
 	int Nb;
-	WORD *key;
-	WORD *eKey;
-	BYTE *block;
+	AES_BYTE *key;
+	AES_BYTE *eKey;
+	AES_BYTE *block;
 } cfg = {
 	C_FLAG | A_FLAG,
 	4,
@@ -104,9 +104,9 @@ void procesa_bloque(int op, char *buffer, FILE *out)
 	} /* if */
 	switch(op) {
 	case OP_CIPHER:
-		aes_Cipher((BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey); break;
+		aes_Cipher((AES_BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey); break;
 	case OP_DECIPHER:
-		aes_InvCipher((BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey); break;
+		aes_InvCipher((AES_BYTE *)buffer, cfg.Nb, cfg.Nk, cfg.eKey); break;
 	default: abort();
 	} /* switch */
 	fwrite(buffer, cfg.Nb*AES_WS, 1, out);
@@ -216,7 +216,7 @@ int main (int argc, char **argv)
 		case 'c': cfg.flags |= C_FLAG; break;
 		case 'd': cfg.flags &= ~C_FLAG; break;
 		case 'k': cfg.Nk = atoi(optarg); break;
-		case 'p': cfg.key = (WORD *)optarg; break;
+		case 'p': cfg.key = (AES_BYTE *)optarg; break;
 		case 'v': cfg.flags |= V_FLAG; break;
 		case 'h': default: cfg.flags |= H_FLAG; break;
 		} /* switch */
@@ -233,7 +233,7 @@ int main (int argc, char **argv)
 	/* proceso de la clave */
 	if (!cfg.key) {
 		char *aux;
-		cfg.key = (WORD *)strdup(getpass("Clave:"));
+		cfg.key = (AES_BYTE *)strdup(getpass("Clave:"));
 		aux = getpass("Clave(otra vez):");
 		if (strcmp((char *)cfg.key, aux)) {
 			fprintf(stderr, "aes: "__FILE__"(%d): Son diferentes, terminando\n",
@@ -245,7 +245,7 @@ int main (int argc, char **argv)
 	strncpy(theKey, (char *)cfg.key, cfg.Nk*AES_WS);
 
 	/* expansión de la clave */
-	cfg.eKey = aes_KeyExpansion((WORD *)theKey, cfg.Nb, cfg.Nk);
+	cfg.eKey = aes_KeyExpansion(theKey, cfg.Nb, cfg.Nk);
 
 	/* proceso de ficheros/stdin. */
 	argc -= optind; argv += optind;
@@ -260,4 +260,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.3 2003/11/29 22:02:04 luis Exp $ */
+/* $Id: main.c,v 1.4 2003/12/02 00:44:43 luis Exp $ */

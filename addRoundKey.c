@@ -1,4 +1,4 @@
-/* $Id: addRoundKey.c,v 1.2 2003/11/28 20:42:13 luis Exp $
+/* $Id: addRoundKey.c,v 1.3 2003/12/02 00:44:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:17:05 MET 2003
  *
@@ -31,11 +31,11 @@
 /* prototypes */
 
 /* variables */
-static char ADDROUNDKEY_C_RCSId[]="\n$Id: addRoundKey.c,v 1.2 2003/11/28 20:42:13 luis Exp $\n";
+static char ADDROUNDKEY_C_RCSId[]="\n$Id: addRoundKey.c,v 1.3 2003/12/02 00:44:43 luis Exp $\n";
 
 /* functions */
 
-void aes_AddRoundKey(BYTE *b, int Nb, BYTE *r)
+void aes_AddRoundKey(AES_BYTE *b, int Nb, AES_BYTE *r)
 {
 	register int i;
 
@@ -46,4 +46,4 @@ void aes_AddRoundKey(BYTE *b, int Nb, BYTE *r)
 
 } /* aes_AddRoundKey */
 
-/* $Id: addRoundKey.c,v 1.2 2003/11/28 20:42:13 luis Exp $ */
+/* $Id: addRoundKey.c,v 1.3 2003/12/02 00:44:43 luis Exp $ */

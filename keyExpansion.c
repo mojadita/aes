@@ -1,4 +1,4 @@
-/* $Id: keyExpansion.c,v 1.7 2003/11/30 00:26:27 luis Exp $
+/* $Id: keyExpansion.c,v 1.8 2003/12/02 00:44:43 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
@@ -26,8 +26,13 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 1
-#define MAIN 0
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
+#ifndef LINES_PER_PAGE
+#define LINES_PER_PAGE 24
+#endif
 
 #if DEBUG
 #include <stdio.h>
@@ -38,19 +43,19 @@
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.7 2003/11/30 00:26:27 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.8 2003/12/02 00:44:43 luis Exp $\n";
 
 /* functions */
 
-static void RotWord(WORD *b)
+static void RotWord(AES_BYTE *b)
 {
 	register int i;
 
-	BYTE c = b->w[0];
+	AES_BYTE c = b[0];
 	for (i = 0; i < AES_WS - 1; i++) {
-		b->w[i] = b->w[i+1];
+		b[i] = b[i+1];
 	} /* for */
-	b->w[i] = c;
+	b[i] = c;
 } /* RotWord */
 
 #if DEBUG
@@ -64,7 +69,7 @@ print_header()
 		);
 } /* print_header */
 
-void aes_PrintWord(WORD *b)
+void aes_PrintWord(AES_BYTE *b)
 {
 	if (!b) {
 		fprintf(stderr, "[________]");
@@ -72,7 +77,7 @@ void aes_PrintWord(WORD *b)
 		register int i;
 		fprintf(stderr, "[");
 		for (i = 0; i < AES_WS; i++) {
-			fprintf(stderr, "%02x", b->w[i]);
+			fprintf(stderr, "%02x", b[i]);
 		} /* for */
 		fprintf(stderr, "]");
 	} /* if */
@@ -80,15 +85,15 @@ void aes_PrintWord(WORD *b)
 #endif
 
 /* Rijndael key expansion routine */
-WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
+AES_BYTE *aes_KeyExpansion(AES_BYTE *k, int Nb, int Nk)
 {
-	WORD *res, *P;
+	AES_BYTE *res, *P;
 	int i;
 	int Nr = AES_Nr(Nb, Nk);
 	int N = Nb*(Nr+1);
-	WORD Rcon = {{ 0x01, 0x00, 0x00, 0x00 }};
+	AES_BYTE Rcon[AES_WS] = { 0x01, 0x00, 0x00, 0x00 }; 
 
-	P = res = calloc(N, sizeof(WORD));
+	P = res = calloc(N, sizeof(AES_BYTE)*AES_WS);
 
 	if (!res) return NULL;
 
@@ -97,22 +102,22 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 #endif
 	/* copiamos la clave */
 	for (i = 0; i < Nk; i++) {
-		memcpy(P, k, sizeof(WORD));
+		memcpy(P, k, sizeof(AES_BYTE)*AES_WS);
 #if DEBUG
 		fprintf(stderr, "W[%d] = ", i); aes_PrintWord(P); fprintf(stderr, "\n");
 #endif
-		P++; k++;
+		P += AES_WS; k += AES_WS;
 	} /* for */
 
 	/* i == Nk */
 	while (i < N) {
 #if DEBUG
-		if ((i - Nk + 24)%24 == 0) {
+		if ((i - Nk + LINES_PER_PAGE) % LINES_PER_PAGE == 0) {
 			print_header();
 		} /* if */
 		fprintf(stderr, "%3d: ", i);
 #endif
-		memcpy(P, P-1, sizeof(WORD)); /* temp */
+		memcpy(P, P-AES_WS, sizeof(AES_BYTE)*AES_WS); /* temp */
 #if DEBUG
 		aes_PrintWord(P);
 #endif
@@ -124,21 +129,21 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 			aes_PrintWord(NULL);
 #endif
 		} /* if */
-		if (i%Nk == 0 || ((Nk > 6) && (i%Nk == 4))) {
-			aes_SubBytes((BYTE *)P, 1);
+		if (i % Nk == 0 || ((Nk > 6) && (i % Nk == 4))) {
+			aes_SubBytes(P, 1);
 #if DEBUG
 			aes_PrintWord(P);
 		} else {
 			aes_PrintWord(NULL);
 #endif
 		} /* if */
-		if (i%Nk == 0) {
-			aes_AddRoundKey((BYTE *)P, 1, (BYTE *)&Rcon);
+		if (i % Nk == 0) {
+			aes_AddRoundKey(P, 1, Rcon);
 #if DEBUG
-			aes_PrintWord(&Rcon);
+			aes_PrintWord(Rcon);
 			aes_PrintWord(P);
 #endif
-			Rcon.w[0] = aes_mult(Rcon.w[0], 0x02, AES_POL);
+			Rcon[0] = aes_mult(Rcon[0], 0x02, AES_POL);
 #if DEBUG
 		} else {
 			aes_PrintWord(NULL);
@@ -146,51 +151,18 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 #endif
 		}
 #if DEBUG
-		aes_PrintWord(P-Nk);
+		aes_PrintWord(P-Nk*AES_WS);
 #endif
-		aes_AddRoundKey((BYTE *)P, 1, (BYTE *)(P-Nk));
+		aes_AddRoundKey(P, 1, P-Nk*AES_WS);
 #if DEBUG
 		aes_PrintWord(P);
 		fprintf(stderr, " = W[%d]", i);
 		fprintf(stderr, "\n");
 #endif
-		i++;P++;
+		i++;P += AES_WS;
 	} /* while */
 
 	return res;
 } /* aes_KeyExpansion */
 
-#if MAIN
-main()
-{
-	WORD key4[] = {
-		0x2b, 0x7e, 0x15, 0x16,
-		0x28, 0xae, 0xd2, 0xa6,
-		0xab, 0xf7, 0x15, 0x88,
-		0x09, 0xcf, 0x4f, 0x3c,	
-	};
-	WORD key6[] = {
-		0x8e, 0x73, 0xb0, 0xf7,
-		0xda, 0x0e, 0x64, 0x52,
-		0xc8, 0x10, 0xf3, 0x2b,
-		0x80, 0x90, 0x79, 0xe5,
-		0x62, 0xf8, 0xea, 0xd2,
-		0x52, 0x2c, 0x6b, 0x7b,
-	};
-	WORD key8[] = {
-		0x60, 0x3d, 0xeb, 0x10,
-		0x15, 0xca, 0x71, 0xbe,
-		0x2b, 0x73, 0xae, 0xf0,
-		0x85, 0x7d, 0x77, 0x81,
-		0x1f, 0x35, 0x2c, 0x07,
-		0x3b, 0x61, 0x08, 0xd7,
-		0x2d, 0x98, 0x10, 0xa3,
-		0x09, 0x14, 0xdf, 0xf4,
-	};
-	aes_KeyExpansion(key4, 4, 4);
-	aes_KeyExpansion(key6, 4, 6);
-	aes_KeyExpansion(key8, 4, 8);
-} /* main */
-#endif
-
-/* $Id: keyExpansion.c,v 1.7 2003/11/30 00:26:27 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.8 2003/12/02 00:44:43 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.1 2003/11/11 23:54:47 luis Exp $
+/* $Id: aes.c,v 1.2 2003/11/12 00:17:56 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -38,32 +38,9 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.1 2003/11/11 23:54:47 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.2 2003/11/12 00:17:56 luis Exp $\n";
 
 /* functions */
 
-/* Esta función multiplica dos números en GF(2^8) (de 8 bits)
- * módulo x^8 + x^4 + x^3 + x^1 + 1
- * Los parámetros válidos de entrada son dos enteros x e y
- * tales que 0 <= x < 0x100, 0 <= y < 0x100.
- */
-static int gf28_mult(int x, int y)
-{
-	int ac = 0x0;
-	int m = 0x80;
 
-	while(m) {
-		ac <<= 1;
-		if (x & m) {
-			ac ^= y;
-		} /* if */
-		if (ac & 0x100) {
-			ac ^= AES_POL;
-		} /* if */
-		m >>= 1;
-	} /* while */
-
-	return ac;
-} /* mult */
-
-/* $Id: aes.c,v 1.1 2003/11/11 23:54:47 luis Exp $ */
+/* $Id: aes.c,v 1.2 2003/11/12 00:17:56 luis Exp $ */

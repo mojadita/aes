@@ -1,6 +1,6 @@
-/* $Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $
+/* $Id: pow.c,v 1.1 2003/11/12 00:17:56 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
- * Date: Tue Nov 11 00:26:05 MET 2003
+ * Date: Wed Nov 12 01:01:06 MET 2003
  *
  * Disclaimer:
  *  This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#define IN_MULT_C
+#define IN_POW_C
 
 /* Standard include files */
 #include <sys/types.h>
@@ -38,32 +38,26 @@
 /* prototypes */
 
 /* variables */
-static char MULT_C_RCSId[]="\n$Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $\n";
+static char POW_C_RCSId[]="\n$Id: pow.c,v 1.1 2003/11/12 00:17:56 luis Exp $\n";
 
 /* functions */
 
-/* Esta función multiplica dos números en GF(2^8) (de 8 bits)
- * módulo x^8 + x^4 + x^3 + x^1 + 1
- * Los parámetros válidos de entrada son dos enteros x e y
- * tales que 0 <= x < 0x100, 0 <= y < 0x100.
- */
-AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y) /* test ok */
+/* Esta función calcula potencias en campos GF(2^8) con la multiplicación
+ * definida por aes_mult() */
+AES_BYTE aes_pow(AES_BYTE x, int n)
 {
-	int ac = 0x0;
-	int m = 0x80;
+	AES_BYTE a;
 
-	while(m) {
-		ac <<= 1;
-		if (x & m) { /* multiplicación polinómica */
-			ac ^= y;
+	a = 1;
+	while (n) {
+		if (n & 1) {
+			a = aes_mult(a, x);
 		} /* if */
-		if (ac & 0x100) { /* reducción módulo */
-			ac ^= AES_POL;
-		} /* if */
-		m >>= 1;
+		x = aes_mult(x, x);
+		n >>= 1;
 	} /* while */
 
-	return ac;
-} /* mult */
+	return a;
+} /* aes_pow */
 
-/* $Id: mult.c,v 1.3 2003/11/12 00:17:56 luis Exp $ */
+/* $Id: pow.c,v 1.1 2003/11/12 00:17:56 luis Exp $ */

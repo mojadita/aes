@@ -1,4 +1,4 @@
-/* $Id: aes.h,v 1.10 2003/11/27 00:55:09 luis Exp $
+/* $Id: aes.h,v 1.11 2003/11/27 23:03:05 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:25:04 MET 2003
  *
@@ -24,11 +24,13 @@
 #ifndef AES_H
 #define AES_H
 
-static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.10 2003/11/27 00:55:09 luis Exp $\n";
+static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.11 2003/11/27 23:03:05 luis Exp $\n";
 
 /* constants */
+#define AES_MAX(x,y) (((x)>(y))?(x):(y))
 #define AES_POL 0x11b
 #define AES_WS	4
+#define AES_Nr(Nb,Nk) (AES_MAX((Nb),(Nk)) + 6)
 
 /* types */
 typedef unsigned int AES_BYTE;
@@ -50,15 +52,17 @@ void aes_InvSubBytes(BYTE *b, size_t n); /* test ok */
 void aes_ShiftRows4(BYTE *b); /* test ok */
 void aes_ShiftRows6(BYTE *b); /* test ok */
 void aes_ShiftRows8(BYTE *b); /* test ok */
+
 void aes_InvShiftRows4(BYTE *b); /* test ok */
 void aes_InvShiftRows6(BYTE *b); /* test ok */
 void aes_InvShiftRows8(BYTE *b); /* test ok */
 
-WORD *aes_KeyExpansion(WORD *k, int Nk, int Nb, int Nr); /* test ok */
+WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk); /* test ok */
+void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey); /* test ? */
 
 #endif /* AES_H */
 /* Do not include anything AFTER the line above, as it would not be
  * protected against double inclusion from other files.
  */
 
-/* $Id: aes.h,v 1.10 2003/11/27 00:55:09 luis Exp $ */
+/* $Id: aes.h,v 1.11 2003/11/27 23:03:05 luis Exp $ */

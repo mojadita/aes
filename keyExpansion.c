@@ -1,4 +1,4 @@
-/* $Id: keyExpansion.c,v 1.2 2003/11/27 00:55:09 luis Exp $
+/* $Id: keyExpansion.c,v 1.3 2003/11/27 23:03:05 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
@@ -26,7 +26,7 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 1
+#define DEBUG 0
 #define MAIN 0
 
 /* types */
@@ -34,7 +34,7 @@
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.2 2003/11/27 00:55:09 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.3 2003/11/27 23:03:05 luis Exp $\n";
 
 /* functions */
 static void SubWord(WORD *b)
@@ -83,10 +83,11 @@ void aes_PrintWord(WORD *b)
 #endif
 
 /* Rijndael key expansion routine */
-WORD *aes_KeyExpansion(WORD *k, int Nk, int Nb, int Nr)
+WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 {
 	WORD *res, *P;
 	int i;
+	int Nr = AES_Nr(Nb, Nk);
 	int N = Nb*(Nr+1);
 	WORD Rcon = {{ 0x01, 0x00, 0x00, 0x00 }};
 
@@ -95,7 +96,7 @@ WORD *aes_KeyExpansion(WORD *k, int Nk, int Nb, int Nr)
 	if (!res) return NULL;
 
 #if DEBUG
-	printf("Nk = %d; Nb = %d; Nr = %d.\n", Nk, Nb, Nr);
+	printf("Nb = %d; Nk = %d; Nr = %d.\n", Nb, Nk, Nr);
 #endif
 	/* copiamos la clave */
 	for (i = 0; i < Nk; i++) {
@@ -189,10 +190,10 @@ main()
 		0x2d, 0x98, 0x10, 0xa3,
 		0x09, 0x14, 0xdf, 0xf4,
 	};
-	aes_KeyExpansion(key4, 4, 4, 10);
-	aes_KeyExpansion(key6, 6, 4, 12);
-	aes_KeyExpansion(key8, 8, 4, 14);
+	aes_KeyExpansion(key4, 4, 4);
+	aes_KeyExpansion(key6, 4, 6);
+	aes_KeyExpansion(key8, 4, 8);
 } /* main */
 #endif
 
-/* $Id: keyExpansion.c,v 1.2 2003/11/27 00:55:09 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.3 2003/11/27 23:03:05 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: keyExpansion.c,v 1.1 2003/11/26 23:30:14 luis Exp $
+/* $Id: keyExpansion.c,v 1.2 2003/11/27 00:55:09 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
@@ -27,17 +27,14 @@
 
 /* constants */
 #define DEBUG 1
-#define MAIN 1
+#define MAIN 0
 
 /* types */
-typedef struct {
-	BYTE w[AES_WS];
-} WORD;
 
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.1 2003/11/26 23:30:14 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.2 2003/11/27 00:55:09 luis Exp $\n";
 
 /* functions */
 static void SubWord(WORD *b)
@@ -46,8 +43,8 @@ static void SubWord(WORD *b)
 
 	for (i = 0; i < AES_WS; i++) {
 		b->w[i] = aes_SubByte(b->w[i]);
-	}
-}
+	} /* for */
+} /* SubWord */
 
 static void RotWord(WORD *b)
 {
@@ -165,7 +162,7 @@ WORD *aes_KeyExpansion(WORD *k, int Nk, int Nb, int Nr)
 	return res;
 } /* aes_KeyExpansion */
 
-#if DEBUG && MAIN
+#if MAIN
 main()
 {
 	WORD key4[] = {
@@ -198,4 +195,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: keyExpansion.c,v 1.1 2003/11/26 23:30:14 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.2 2003/11/27 00:55:09 luis Exp $ */

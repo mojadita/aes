@@ -1,4 +1,4 @@
-/* $Id: subBytes.c,v 1.2 2003/11/14 23:59:18 luis Exp $
+/* $Id: subBytes.c,v 1.3 2003/11/27 00:55:09 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 12 23:39:22 MET 2003
  *
@@ -31,7 +31,7 @@
 /* prototypes */
 
 /* variables */
-static char SUBBYTES_C_RCSId[]="\n$Id: subBytes.c,v 1.2 2003/11/14 23:59:18 luis Exp $\n";
+static char SUBBYTES_C_RCSId[]="\n$Id: subBytes.c,v 1.3 2003/11/27 00:55:09 luis Exp $\n";
 
 /* functions */
 
@@ -86,17 +86,23 @@ AES_BYTE aes_InvSubByte(AES_BYTE n)
 /* Realiza la transformación de sustitución en una cadena de bytes */
 void aes_SubBytes(BYTE *b, size_t n)
 {
+	n *= AES_WS;
+
 	while(n--) {
-		*b = (BYTE) aes_SubByte((AES_BYTE) *b); b++;
+		*b = (BYTE) aes_SubByte((AES_BYTE) *b);
+		b++;
 	} /* while */
 } /* aes_SubBytes */
 
 /* Realiza la transformación de sustitución inversa en una cadena de bytes */
 void aes_InvSubBytes(BYTE *b, size_t n)
 {
+	n *= AES_WS;
+
 	while(n--) {
-		*b = (BYTE) aes_InvSubByte((AES_BYTE) *b); b++;
+		*b = (BYTE) aes_InvSubByte((AES_BYTE) *b);
+		b++;
 	} /* while */
 } /* aes_InvSubBytes */
 
-/* $Id: subBytes.c,v 1.2 2003/11/14 23:59:18 luis Exp $ */
+/* $Id: subBytes.c,v 1.3 2003/11/27 00:55:09 luis Exp $ */

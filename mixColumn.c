@@ -1,4 +1,4 @@
-/* $Id: mixColumn.c,v 1.1 2003/11/26 23:30:14 luis Exp $
+/* $Id: mixColumn.c,v 1.2 2003/11/27 00:55:09 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 19:28:42 MET 2003
  *
@@ -26,13 +26,15 @@
 #include "aes.h"
 
 /* constants */
+#define DEBUG 1
+#define MAIN 0
 
 /* types */
 
 /* prototypes */
 
 /* variables */
-static char MIXCOLUMN_C_RCSId[]="\n$Id: mixColumn.c,v 1.1 2003/11/26 23:30:14 luis Exp $\n";
+static char MIXCOLUMN_C_RCSId[]="\n$Id: mixColumn.c,v 1.2 2003/11/27 00:55:09 luis Exp $\n";
 
 static BYTE pol1[] = { 0x02, 0x01, 0x01, 0x03 };
 static BYTE pol2[] = { 0x0e, 0x09, 0x0d, 0x0b };
@@ -89,29 +91,7 @@ void aes_InvMixColumns(BYTE *b, int Nb)
 	MCs(b, Nb, pol2);
 } /* aes_InvMixColumns */
 
-print_raya(Nb)
-{
-	register int i;
-	printf("+");
-	for (i = 0; i < Nb; i++)
-		printf("--+");
-	printf("\n");
-}
-print(BYTE *b, int Nb)
-{
-	register int i, j;
-
-	print_raya(Nb);
-	for(i=0;i<AES_WS;i++){
-		printf("|");
-		for(j=0;j<Nb;j++)
-			printf("%02x|", b[j*AES_WS+i]);
-		printf("\n");
-		print_raya(Nb);
-	} /* for */
-	printf("\n");
-}
-
+#if MAIN
 main()
 {
 	static BYTE b[] = {
@@ -126,6 +106,7 @@ main()
 	aes_InvMixColumns(b, 4);
 	print(b, 4);
 }
+#endif
 
 	
-/* $Id: mixColumn.c,v 1.1 2003/11/26 23:30:14 luis Exp $ */
+/* $Id: mixColumn.c,v 1.2 2003/11/27 00:55:09 luis Exp $ */

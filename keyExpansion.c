@@ -1,4 +1,4 @@
-/* $Id: keyExpansion.c,v 1.6 2003/11/29 10:44:25 luis Exp $
+/* $Id: keyExpansion.c,v 1.7 2003/11/30 00:26:27 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
@@ -26,15 +26,19 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 0
+#define DEBUG 1
 #define MAIN 0
+
+#if DEBUG
+#include <stdio.h>
+#endif
 
 /* types */
 
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.6 2003/11/29 10:44:25 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.7 2003/11/30 00:26:27 luis Exp $\n";
 
 /* functions */
 
@@ -52,7 +56,7 @@ static void RotWord(WORD *b)
 #if DEBUG
 print_header()
 {
-		printf(
+		fprintf(stderr, 
 "===========================================================================\n"
 "|  |          |  after  |  after  |   Rcon  |  after  |         |  after  |\n"
 "| i|   temp   | RotWord | SubWord |  [i/Nk] |XOR Rcon | W[i-Nk] | W[i-Nk] |\n"
@@ -63,14 +67,14 @@ print_header()
 void aes_PrintWord(WORD *b)
 {
 	if (!b) {
-		printf("[________]");
+		fprintf(stderr, "[________]");
 	} else {
 		register int i;
-		printf("[");
+		fprintf(stderr, "[");
 		for (i = 0; i < AES_WS; i++) {
-			printf("%02x", b->w[i]);
+			fprintf(stderr, "%02x", b->w[i]);
 		} /* for */
-		printf("]");
+		fprintf(stderr, "]");
 	} /* if */
 } /* aes_PrintWord */
 #endif
@@ -89,13 +93,13 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 	if (!res) return NULL;
 
 #if DEBUG
-	printf("Nb = %d; Nk = %d; Nr = %d.\n", Nb, Nk, Nr);
+	fprintf(stderr, "Nb = %d; Nk = %d; Nr = %d.\n", Nb, Nk, Nr);
 #endif
 	/* copiamos la clave */
 	for (i = 0; i < Nk; i++) {
 		memcpy(P, k, sizeof(WORD));
 #if DEBUG
-		printf("W[%d] = ", i); aes_PrintWord(P); printf("\n");
+		fprintf(stderr, "W[%d] = ", i); aes_PrintWord(P); fprintf(stderr, "\n");
 #endif
 		P++; k++;
 	} /* for */
@@ -106,7 +110,7 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 		if ((i - Nk + 24)%24 == 0) {
 			print_header();
 		} /* if */
-		printf("%3d: ", i);
+		fprintf(stderr, "%3d: ", i);
 #endif
 		memcpy(P, P-1, sizeof(WORD)); /* temp */
 #if DEBUG
@@ -147,8 +151,8 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 		aes_AddRoundKey((BYTE *)P, 1, (BYTE *)(P-Nk));
 #if DEBUG
 		aes_PrintWord(P);
-		printf(" = W[%d]", i);
-		printf("\n");
+		fprintf(stderr, " = W[%d]", i);
+		fprintf(stderr, "\n");
 #endif
 		i++;P++;
 	} /* while */
@@ -189,4 +193,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: keyExpansion.c,v 1.6 2003/11/29 10:44:25 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.7 2003/11/30 00:26:27 luis Exp $ */

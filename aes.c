@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.9 2003/11/29 10:44:25 luis Exp $
+/* $Id: aes.c,v 1.10 2003/11/30 00:26:27 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -26,7 +26,7 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 0
+#define DEBUG 1
 #define MAIN 0
 
 /* types */
@@ -34,7 +34,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.9 2003/11/29 10:44:25 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.10 2003/11/30 00:26:27 luis Exp $\n";
 
 /* functions */
 
@@ -46,21 +46,21 @@ void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 	
 	/* first round */
 #if DEBUG
-	printf("Comienzo: Entrada:\n");
+	fprintf(stderr, "Comienzo: Entrada:\n");
 	aes_PrintState(b, Nb);
-	printf("Comienzo: Round Key Value:\n");
+	fprintf(stderr, "Comienzo: Round Key Value:\n");
 	aes_PrintState((BYTE *)rKey, Nb);
 #endif
 	aes_AddRoundKey(b, Nb, (BYTE *)rKey);
 	/* Nr rounds */
 	for (i = 0; i < Nr; i++) {
 #if DEBUG
-		printf("Ronda #%d: Estado:\n", i+1);
+		fprintf(stderr, "#%d: Estado:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
 		aes_SubBytes(b, Nb);
 #if DEBUG
-		printf("Ronda #%d: Tras SubBytes:\n", i+1);
+		fprintf(stderr, "#%d: Tras SubBytes:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
 		switch(Nb) {
@@ -76,25 +76,25 @@ void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 			abort();
 		} /* switch */
 #if DEBUG
-		printf("Ronda #%d: Tras ShiftRows:\n", i+1);
+		fprintf(stderr, "#%d: Tras ShiftRows:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
 		if (i < Nr-1) {
 			aes_MixColumns(b, Nb);
 #if DEBUG
-			printf("Ronda #%d: Tras MixColumns:\n", i+1);
+			fprintf(stderr, "#%d: Tras MixColumns:\n", i+1);
 			aes_PrintState(b, Nb);
 #endif
 		} /* if */
 		rKey += Nb;
 #if DEBUG
-		printf("Ronda #%d: Round Key Value:\n", i+1);
+		fprintf(stderr, "#%d: Round Key Value:\n", i+1);
 		aes_PrintState((BYTE *)rKey, Nb);
 #endif
 		aes_AddRoundKey(b, Nb, (BYTE *)rKey);
 	} /* for */
 #if DEBUG
-	printf("FIN: Resultado:\n");
+	fprintf(stderr, "FIN: Resultado:\n");
 	aes_PrintState(b, Nb);
 #endif
 	
@@ -108,22 +108,22 @@ void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 
 	/* first round */
 #if DEBUG
-	printf("Comienzo: Entrada:\n");
+	fprintf(stderr, "Comienzo: Entrada:\n");
 	aes_PrintState(b, Nb);
-	printf("Comienzo: Round Key Value:\n");
+	fprintf(stderr, "Comienzo: Round Key Value:\n");
 	aes_PrintState((BYTE *)rKey, Nb);
 #endif
 	aes_AddRoundKey(b, Nb, (BYTE *)rKey);
 	/* Nr rounds */
 	for (i = 0; i < Nr; i++) {
 #if DEBUG
-		printf("Ronda %d: Estado:\n", i+1);
+		fprintf(stderr, "#%d: Estado:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
 		if (i > 0) {
 			aes_InvMixColumns(b, Nb);
 #if DEBUG
-			printf("Ronda %d: Tras InvMixColumns:\n", i+1);
+			fprintf(stderr, "#%d: Tras InvMixColumns:\n", i+1);
 			aes_PrintState(b, Nb);
 #endif
 		} /* if */
@@ -140,23 +140,23 @@ void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey)
 			abort();
 		} /* switch */
 #if DEBUG
-		printf("Ronda %d: Tras InvShiftRows:\n", i+1);
+		fprintf(stderr, "#%d: Tras InvShiftRows:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
 		aes_InvSubBytes(b, Nb);
 #if DEBUG
-		printf("Ronda %d: Tras InvSubBytes:\n", i+1);
+		fprintf(stderr, "#%d: Tras InvSubBytes:\n", i+1);
 		aes_PrintState(b, Nb);
 #endif
 		rKey -= Nb;
 #if DEBUG
-		printf("Ronda %d: Round Key Value:\n", i+1);
+		fprintf(stderr, "#%d: Round Key Value:\n", i+1);
 		aes_PrintState((BYTE *)rKey, Nb);
 #endif
 		aes_AddRoundKey(b, Nb, (BYTE *)rKey);
 	} /* for */
 #if DEBUG
-	printf("FIN: Resultado:\n");
+	fprintf(stderr, "FIN: Resultado:\n");
 	aes_PrintState(b, Nb);
 #endif
 } /* aes_InvCipher */
@@ -189,34 +189,34 @@ main()
 	{ { 0x18, 0x19, 0x1a, 0x1b, } },
 	{ { 0x1c, 0x1d, 0x1e, 0x1f, } },
 	};
-	printf("***** Expansión de claves *****\n");
+	fprintf(stderr, "***** Expansión de claves *****\n");
 	for (i = 0; i < N; i++) {
 		for (j = 0; j < N; j++) {
-			printf("CIFRADO RIJNDAEL PARA Nb = %d; Nk = %d; Nr = %d\n",
+			fprintf(stderr, "CIFRADO RIJNDAEL PARA Nb = %d; Nk = %d; Nr = %d\n",
 				t[i], t[j], AES_Nr(t[i],t[j]));
-			printf("Expansión de clave:\n");
-			printf("***** BLOQUE A CIFRAR ******\n");
+			fprintf(stderr, "Expansión de clave:\n");
+			fprintf(stderr, "***** BLOQUE A CIFRAR ******\n");
 			aes_PrintState(bl, t[i]);
-			printf("***** CLAVE DE CIFRADO *****\n");
+			fprintf(stderr, "***** CLAVE DE CIFRADO *****\n");
 			aes_PrintState((BYTE *)cl, t[j]);
-			printf("============================\n");
+			fprintf(stderr, "============================\n");
 			k[i][j] = aes_KeyExpansion(cl, t[i], t[j]);
-			printf("============================\n");
-			printf("***** CIFRANDO *****\n");
+			fprintf(stderr, "============================\n");
+			fprintf(stderr, "***** CIFRANDO *****\n");
 			aes_Cipher(bl, t[i], t[j], k[i][j]);
-			printf("============================\n");
-			printf("***** DESCIFRANDO *****\n");
+			fprintf(stderr, "============================\n");
+			fprintf(stderr, "***** DESCIFRANDO *****\n");
 			aes_InvCipher(bl, t[i], t[j], k[i][j]);
-			printf("***** BLOQUE DESCIFRADO *****\n");
+			fprintf(stderr, "***** BLOQUE DESCIFRADO *****\n");
 			aes_PrintState(bl, t[i]);
-			printf("=============================\n");
-			printf("/////////////////////////////\n");
+			fprintf(stderr, "=============================\n");
+			fprintf(stderr, "/////////////////////////////\n");
 		} /*  for */
 	} /* for */
 
-	printf("***** FIN DEL PROGRAMA *****\n");
+	fprintf(stderr, "***** FIN DEL PROGRAMA *****\n");
 
 } /* main */
 #endif
 
-/* $Id: aes.c,v 1.9 2003/11/29 10:44:25 luis Exp $ */
+/* $Id: aes.c,v 1.10 2003/11/30 00:26:27 luis Exp $ */

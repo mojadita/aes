@@ -1,4 +1,4 @@
-/* $Id: print.c,v 1.2 2003/11/28 20:42:13 luis Exp $
+/* $Id: print.c,v 1.3 2003/11/30 00:26:27 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Thu Nov 27 01:08:15 MET 2003
  *
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.2 2003/11/28 20:42:13 luis Exp $\n";
+static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.3 2003/11/30 00:26:27 luis Exp $\n";
 
 /* functions */
 
@@ -46,10 +46,10 @@ static void print_raya(int Nb) /* test ok */
 {
 	register int i;
 
-	printf("+");
+	fprintf(stderr, "+");
 	for (i = 0; i < Nb; i++)
-		printf("--+");
-	printf("\n");
+		fprintf(stderr, "--+");
+	fprintf(stderr, "\n");
 } /* print_raya */
 
 void aes_PrintState(BYTE *b, int Nb) /* test ok */
@@ -58,14 +58,14 @@ void aes_PrintState(BYTE *b, int Nb) /* test ok */
 
 	print_raya(Nb);
 	for(i=0;i<AES_WS;i++){
-		printf("|");
+		fprintf(stderr, "|");
 		for(j=0;j<Nb;j++)
-			printf("%02x|", b[j*AES_WS+i]);
-		printf("\n");
+			fprintf(stderr, "%02x|", b[j*AES_WS+i]);
+		fprintf(stderr, "\n");
 		print_raya(Nb);
 	} /* for */
-	printf("\n");
+	fprintf(stderr, "\n");
 
 } /* aes_PrintState */
 
-/* $Id: print.c,v 1.2 2003/11/28 20:42:13 luis Exp $ */
+/* $Id: print.c,v 1.3 2003/11/30 00:26:27 luis Exp $ */

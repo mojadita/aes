@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.5 2003/12/08 22:07:18 luis Exp $
+/* $Id: main.c,v 1.6 2003/12/08 22:17:09 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
@@ -49,7 +49,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.5 2003/12/08 22:07:18 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.6 2003/12/08 22:17:09 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -82,6 +82,8 @@ void do_usage(void)
 "  -p <password>\n"
 "     Password to use. In case this option is not specified, it will be\n"
 "     asked, via getpass(3).\n"
+"  -a Ascii output (in case of encipherment) or input (in case of decipherment)\n"
+"     (base64 coded output/input)\n"
 "  -b <number>\n"
 "     This option sets the Block Size in 4 byte words. The input file\n"
 "	 is padded with zero bytes until a full number of blocks is filled\n"
@@ -351,4 +353,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.5 2003/12/08 22:07:18 luis Exp $ */
+/* $Id: main.c,v 1.6 2003/12/08 22:17:09 luis Exp $ */

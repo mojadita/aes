@@ -1,25 +1,17 @@
 #include <stdio.h>
+#include <assert.h>
 #include "aes.h"
 main()
 {
-	char buffer[1000];
-	AES_BYTE x;
-	int n;
+	AES_BYTE i, j;
 
-	for (;;) {
-		fputs("* ", stderr);
-		if (!fgets(buffer, sizeof buffer, stdin))
-			break;
-		if (sscanf(buffer, "%x %u", &x, &n) != 2) {
-			fprintf(stderr, "Error en la entrada (x = 0x%02x; n = %d)\n",
-				x, n);
-			continue;
-		} /* if */
-		printf("aes_pow(0x%02x, %d) -> 0x%02x\n", x, n, aes_pow(x, n));
-		printf("aes_mult(0x%02x, %d) -> 0x%02x\n", x, n, aes_mult(x, n, AES_POL));
-	} /* for */
-	n = 254;
-	for (x = 0; x < 256; x++) {
-		printf("0x%02x^(%d) == 0x%02x\n", x, n, aes_pow(x, n));
+	for (i = 0; i < 0x10; i++) {
+		printf("  ");
+		for (j = 0; j < 0x10; j++) {
+			assert((aes_mult(aes_pow(i*0x10+j, 0xfe), 0x1f, 0x101)^0x63)
+				== aes_subByte(i*0x10+j));
+			printf("."); fflush(stdout);
+		} /* for */
+		printf("\n");
 	} /* for */
 } /* main */

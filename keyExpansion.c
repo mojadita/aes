@@ -1,4 +1,4 @@
-/* $Id: keyExpansion.c,v 1.4 2003/11/27 23:43:14 luis Exp $
+/* $Id: keyExpansion.c,v 1.5 2003/11/28 20:42:13 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
@@ -34,21 +34,14 @@
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.4 2003/11/27 23:43:14 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.5 2003/11/28 20:42:13 luis Exp $\n";
 
 /* functions */
-static void SubWord(WORD *b)
-{
-	register int i;
-
-	for (i = 0; i < AES_WS; i++) {
-		b->w[i] = aes_SubByte(b->w[i]);
-	} /* for */
-} /* SubWord */
 
 static void RotWord(WORD *b)
 {
 	register int i;
+
 	BYTE c = b->w[0];
 	for (i = 0; i < AES_WS - 1; i++) {
 		b->w[i] = b->w[i+1];
@@ -128,7 +121,7 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 #endif
 		} /* if */
 		if (i%Nk == 0 || ((Nk > 6) && (i%Nk == 4))) {
-			SubWord(P);
+			aes_SubBytes((BYTE *)P, 1);
 #if DEBUG
 			aes_PrintWord(P);
 		} else {
@@ -136,7 +129,7 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 #endif
 		} /* if */
 		if (i%Nk == 0) {
-			aes_AddRoundKey(P, 1, &Rcon);
+			aes_AddRoundKey((BYTE *)P, 1, (BYTE *)&Rcon);
 #if DEBUG
 			aes_PrintWord(&Rcon);
 			aes_PrintWord(P);
@@ -151,7 +144,7 @@ WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk)
 #if DEBUG
 		aes_PrintWord(P-Nk);
 #endif
-		aes_AddRoundKey(P, 1, P-Nk);
+		aes_AddRoundKey((BYTE *)P, 1, (BYTE *)(P-Nk));
 #if DEBUG
 		aes_PrintWord(P);
 		printf(" = W[%d]", i);
@@ -196,4 +189,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: keyExpansion.c,v 1.4 2003/11/27 23:43:14 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.5 2003/11/28 20:42:13 luis Exp $ */

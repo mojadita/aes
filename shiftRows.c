@@ -1,4 +1,4 @@
-/* $Id: shiftRows.c,v 1.3 2003/11/27 23:43:14 luis Exp $
+/* $Id: shiftRows.c,v 1.4 2003/11/28 20:42:13 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Sun Nov 23 01:04:51 MET 2003
  *
@@ -32,11 +32,11 @@
 /* prototypes */
 
 /* variables */
-static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.3 2003/11/27 23:43:14 luis Exp $\n";
+static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.4 2003/11/28 20:42:13 luis Exp $\n";
 
 /* functions */
 
-static void ShiftRows(BYTE *b, int Nb, char *t)
+static void ShiftRows(BYTE *b, int Nb, char *t) /* test ok */
 {
 	BYTE *temp = alloca(4*Nb);
 	int i, j;
@@ -44,7 +44,8 @@ static void ShiftRows(BYTE *b, int Nb, char *t)
 	/* copiamos los bytes a temp */
 	memcpy(temp, b, 4*Nb);
 
-	/* retornamos haciendo los desplazamientos */
+	/* retornamos haciendo los desplazamientos (se suma Nb
+	 * para forzar resultados positivos) */
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
 			b[j*4 + i] = temp[(j + t[i] + Nb)%Nb*4 + i];
@@ -59,54 +60,54 @@ static char C4[] = { 0, -1, -2, -4 };
 static char C5[] = { 0, 1, 3, 4 };
 static char C6[] = { 0, -1, -3, -4 };
 
-void aes_ShiftRows4(BYTE *b)
+void aes_ShiftRows4(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 4, C1);
 } /* aes_ShiftRows4 */
 
-void aes_InvShiftRows4(BYTE *b)
+void aes_InvShiftRows4(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 4, C2);
 } /* aes_InvShiftRows4 */
 
-void aes_ShiftRows5(BYTE *b)
+void aes_ShiftRows5(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 5, C1);
 } /* aes_ShiftRows5 */
 
-void aes_InvShiftRows5(BYTE *b)
+void aes_InvShiftRows5(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 5, C2);
 } /* aes_InvShiftRows5 */
 
-void aes_ShiftRows6(BYTE *b)
+void aes_ShiftRows6(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 6, C1);
 } /* aes_ShiftRows6 */
 
-void aes_InvShiftRows6(BYTE *b)
+void aes_InvShiftRows6(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 6, C2);
 } /* aes_InvShiftRows4 */
 
-void aes_ShiftRows7(BYTE *b)
+void aes_ShiftRows7(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 7, C3);
 } /* aes_ShiftRows8 */
 
-void aes_InvShiftRows7(BYTE *b)
+void aes_InvShiftRows7(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 7, C4);
 } /* aes_InvShiftRows8 */
 
-void aes_ShiftRows8(BYTE *b)
+void aes_ShiftRows8(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 8, C5);
 } /* aes_ShiftRows8 */
 
-void aes_InvShiftRows8(BYTE *b)
+void aes_InvShiftRows8(BYTE *b) /* test ok */
 {
 	ShiftRows(b, 8, C6);
 } /* aes_InvShiftRows8 */
 
-/* $Id: shiftRows.c,v 1.3 2003/11/27 23:43:14 luis Exp $ */
+/* $Id: shiftRows.c,v 1.4 2003/11/28 20:42:13 luis Exp $ */

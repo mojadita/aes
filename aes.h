@@ -1,4 +1,4 @@
-/* $Id: aes.h,v 1.11 2003/11/27 23:03:05 luis Exp $
+/* $Id: aes.h,v 1.12 2003/11/28 20:42:13 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:25:04 MET 2003
  *
@@ -24,7 +24,7 @@
 #ifndef AES_H
 #define AES_H
 
-static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.11 2003/11/27 23:03:05 luis Exp $\n";
+static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.12 2003/11/28 20:42:13 luis Exp $\n";
 
 /* constants */
 #define AES_MAX(x,y) (((x)>(y))?(x):(y))
@@ -41,28 +41,37 @@ typedef struct {
 
 /* prototypes */
 AES_BYTE aes_mult(AES_BYTE x, AES_BYTE y, AES_BYTE pol); /* test ok */
-AES_BYTE aes_pow(AES_BYTE x, unsigned int n); /*test ok */
+AES_BYTE aes_pow(AES_BYTE x, unsigned int n); /* test ok */
 
-AES_BYTE aes_SubByte(AES_BYTE n); /* test ok */
-AES_BYTE aes_InvSubByte(AES_BYTE n); /* test ok */
+void aes_PrintState(BYTE *b, int Nb); /* test ok */
 
-void aes_SubBytes(BYTE *b, size_t n); /* test ok */
-void aes_InvSubBytes(BYTE *b, size_t n); /* test ok */
+void aes_SubBytes(BYTE *b, int Nb); /* test ok */
+void aes_InvSubBytes(BYTE *b, int Nb); /* test ok */
 
 void aes_ShiftRows4(BYTE *b); /* test ok */
-void aes_ShiftRows6(BYTE *b); /* test ok */
-void aes_ShiftRows8(BYTE *b); /* test ok */
-
 void aes_InvShiftRows4(BYTE *b); /* test ok */
+void aes_ShiftRows5(BYTE *b); /* test ok */
+void aes_InvShiftRows5(BYTE *b); /* test ok */
+void aes_ShiftRows6(BYTE *b); /* test ok */
 void aes_InvShiftRows6(BYTE *b); /* test ok */
+void aes_ShiftRows7(BYTE *b); /* test ok */
+void aes_InvShiftRows7(BYTE *b); /* test ok */
+void aes_ShiftRows8(BYTE *b); /* test ok */
 void aes_InvShiftRows8(BYTE *b); /* test ok */
 
+void aes_MixColumns(BYTE *b, int Nb); /* test ok */
+void aes_InvMixColumns(BYTE *b, int Nb); /* test ok */
+
+void aes_AddRoundKey(BYTE *b, int Nb, BYTE *r); /* test ok */
+
 WORD *aes_KeyExpansion(WORD *k, int Nb, int Nk); /* test ok */
-void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey); /* test ? */
+
+void aes_Cipher(BYTE *b, int Nb, int Nk, WORD *eKey); /* test ok */
+void aes_InvCipher(BYTE *b, int Nb, int Nk, WORD *eKey); /* test ok */
 
 #endif /* AES_H */
 /* Do not include anything AFTER the line above, as it would not be
  * protected against double inclusion from other files.
  */
 
-/* $Id: aes.h,v 1.11 2003/11/27 23:03:05 luis Exp $ */
+/* $Id: aes.h,v 1.12 2003/11/28 20:42:13 luis Exp $ */

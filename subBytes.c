@@ -1,4 +1,4 @@
-/* $Id: subBytes.c,v 1.3 2003/11/27 00:55:09 luis Exp $
+/* $Id: subBytes.c,v 1.4 2003/11/28 20:42:13 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 12 23:39:22 MET 2003
  *
@@ -31,12 +31,12 @@
 /* prototypes */
 
 /* variables */
-static char SUBBYTES_C_RCSId[]="\n$Id: subBytes.c,v 1.3 2003/11/27 00:55:09 luis Exp $\n";
+static char SUBBYTES_C_RCSId[]="\n$Id: subBytes.c,v 1.4 2003/11/28 20:42:13 luis Exp $\n";
 
 /* functions */
 
 /* Realiza la transformación de sustitución en un entero AES_BYTE */
-AES_BYTE aes_SubByte(AES_BYTE n)
+static AES_BYTE aes_SubByte(AES_BYTE n) /* test ok */
 {
 	static BYTE tab[] = {
   	0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
@@ -60,7 +60,7 @@ AES_BYTE aes_SubByte(AES_BYTE n)
 	return tab[n & 0xff];
 } /* aes_SubByte */
 
-AES_BYTE aes_InvSubByte(AES_BYTE n)
+static AES_BYTE aes_InvSubByte(AES_BYTE n) /* test ok */
 {
 	static BYTE tab[] = {
   	0x52,0x09,0x6a,0xd5,0x30,0x36,0xa5,0x38,0xbf,0x40,0xa3,0x9e,0x81,0xf3,0xd7,0xfb,
@@ -80,29 +80,30 @@ AES_BYTE aes_InvSubByte(AES_BYTE n)
   	0xa0,0xe0,0x3b,0x4d,0xae,0x2a,0xf5,0xb0,0xc8,0xeb,0xbb,0x3c,0x83,0x53,0x99,0x61,
   	0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d,
 	};
+
 	return tab[n & 0xff];
 } /* aes_InvSubByte */
 
 /* Realiza la transformación de sustitución en una cadena de bytes */
-void aes_SubBytes(BYTE *b, size_t n)
+void aes_SubBytes(BYTE *b, int Nb) /* test ok */
 {
-	n *= AES_WS;
+	Nb *= AES_WS;
 
-	while(n--) {
+	while(Nb--) {
 		*b = (BYTE) aes_SubByte((AES_BYTE) *b);
 		b++;
 	} /* while */
 } /* aes_SubBytes */
 
 /* Realiza la transformación de sustitución inversa en una cadena de bytes */
-void aes_InvSubBytes(BYTE *b, size_t n)
+void aes_InvSubBytes(BYTE *b, int Nb) /* test ok */
 {
-	n *= AES_WS;
+	Nb *= AES_WS;
 
-	while(n--) {
+	while(Nb--) {
 		*b = (BYTE) aes_InvSubByte((AES_BYTE) *b);
 		b++;
 	} /* while */
 } /* aes_InvSubBytes */
 
-/* $Id: subBytes.c,v 1.3 2003/11/27 00:55:09 luis Exp $ */
+/* $Id: subBytes.c,v 1.4 2003/11/28 20:42:13 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: print.c,v 1.1 2003/11/27 00:56:00 luis Exp $
+/* $Id: print.c,v 1.2 2003/11/28 20:42:13 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Thu Nov 27 01:08:15 MET 2003
  *
@@ -38,11 +38,11 @@
 /* prototypes */
 
 /* variables */
-static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.1 2003/11/27 00:56:00 luis Exp $\n";
+static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.2 2003/11/28 20:42:13 luis Exp $\n";
 
 /* functions */
 
-static void print_raya(int Nb)
+static void print_raya(int Nb) /* test ok */
 {
 	register int i;
 
@@ -52,7 +52,7 @@ static void print_raya(int Nb)
 	printf("\n");
 } /* print_raya */
 
-void aes_PrintState(BYTE *b, int Nb)
+void aes_PrintState(BYTE *b, int Nb) /* test ok */
 {
 	register int i, j;
 
@@ -68,4 +68,4 @@ void aes_PrintState(BYTE *b, int Nb)
 
 } /* aes_PrintState */
 
-/* $Id: print.c,v 1.1 2003/11/27 00:56:00 luis Exp $ */
+/* $Id: print.c,v 1.2 2003/11/28 20:42:13 luis Exp $ */

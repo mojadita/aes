@@ -1,4 +1,4 @@
-/* $Id: keyExpansion.c,v 1.5 2003/11/28 20:42:13 luis Exp $
+/* $Id: keyExpansion.c,v 1.6 2003/11/29 10:44:25 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
@@ -26,7 +26,7 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 1
+#define DEBUG 0
 #define MAIN 0
 
 /* types */
@@ -34,7 +34,7 @@
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.5 2003/11/28 20:42:13 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.6 2003/11/29 10:44:25 luis Exp $\n";
 
 /* functions */
 
@@ -189,4 +189,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: keyExpansion.c,v 1.5 2003/11/28 20:42:13 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.6 2003/11/29 10:44:25 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: aes.c,v 1.8 2003/11/28 20:42:13 luis Exp $
+/* $Id: aes.c,v 1.9 2003/11/29 10:44:25 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
@@ -26,15 +26,15 @@
 #include "aes.h"
 
 /* constants */
-#define DEBUG 1
-#define MAIN 1
+#define DEBUG 0
+#define MAIN 0
 
 /* types */
 
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.8 2003/11/28 20:42:13 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.9 2003/11/29 10:44:25 luis Exp $\n";
 
 /* functions */
 
@@ -198,7 +198,7 @@ main()
 			printf("***** BLOQUE A CIFRAR ******\n");
 			aes_PrintState(bl, t[i]);
 			printf("***** CLAVE DE CIFRADO *****\n");
-			aes_PrintState(cl, t[j]);
+			aes_PrintState((BYTE *)cl, t[j]);
 			printf("============================\n");
 			k[i][j] = aes_KeyExpansion(cl, t[i], t[j]);
 			printf("============================\n");
@@ -219,4 +219,4 @@ main()
 } /* main */
 #endif
 
-/* $Id: aes.c,v 1.8 2003/11/28 20:42:13 luis Exp $ */
+/* $Id: aes.c,v 1.9 2003/11/29 10:44:25 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: shiftRows.c,v 1.1 2003/11/26 18:25:44 luis Exp $
+/* $Id: shiftRows.c,v 1.2 2003/11/26 23:30:14 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Sun Nov 23 01:04:51 MET 2003
  *
@@ -32,7 +32,7 @@
 /* prototypes */
 
 /* variables */
-static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.1 2003/11/26 18:25:44 luis Exp $\n";
+static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.2 2003/11/26 23:30:14 luis Exp $\n";
 
 /* functions */
 
@@ -47,10 +47,7 @@ static void ShiftRows(BYTE *b, int Nb, char *t)
 	/* retornamos haciendo los desplazamientos */
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
-			int k = (j + t[i]) % Nb;
-			if (k < 0) k += Nb;
-
-			b[j*4 + i] = temp[k*4 + i];
+			b[j*4 + i] = temp[(j + t[i] + Nb)%Nb*4 + i];
 		} /* for */
 	} /* for */
 } /* AES_ShiftRows */
@@ -90,4 +87,4 @@ void aes_InvShiftRows8(BYTE *b)
 	ShiftRows(b, 8, C4);
 } /* aes_InvShiftRows8 */
 
-/* $Id: shiftRows.c,v 1.1 2003/11/26 18:25:44 luis Exp $ */
+/* $Id: shiftRows.c,v 1.2 2003/11/26 23:30:14 luis Exp $ */

@@ -1,6 +1,6 @@
-/* $Id: aes.c,v 1.3 2003/11/26 23:30:14 luis Exp $
+/* $Id: addRoundKey.c,v 1.1 2003/11/26 23:30:14 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
- * Date: Tue Nov 11 00:24:20 MET 2003
+ * Date: Wed Nov 26 21:17:05 MET 2003
  *
  * Disclaimer:
  *  This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#define IN_AES_C
+#define IN_ADDROUNDKEY_C
 
 /* Standard include files */
 #include <sys/types.h>
@@ -31,17 +31,17 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.3 2003/11/26 23:30:14 luis Exp $\n";
+static char ADDROUNDKEY_C_RCSId[]="\n$Id: addRoundKey.c,v 1.1 2003/11/26 23:30:14 luis Exp $\n";
 
 /* functions */
 
-void aes_Cipher(BYTE *b, int Nb, BYTE *k, int Nk)
+void aes_AddRoundKey(BYTE *b, int Nb, BYTE *r)
 {
-} /* aes_Cipher */
+	register int i;
 
-void aes_InvCipher(BYTE *b, int Nb, BYTE *k, int Nk)
-{
-}
+	for (i = 0; i < Nb*AES_WS; i++) {
+		*b++ ^= *r++;
+	} /* for */
+} /* aes_AddRoundKey */
 
-
-/* $Id: aes.c,v 1.3 2003/11/26 23:30:14 luis Exp $ */
+/* $Id: addRoundKey.c,v 1.1 2003/11/26 23:30:14 luis Exp $ */

@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.2 2003/11/29 11:41:24 luis Exp $
+/* $Id: main.c,v 1.3 2003/11/29 22:02:04 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
@@ -48,7 +48,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.2 2003/11/29 11:41:24 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.3 2003/11/29 22:02:04 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -232,7 +232,14 @@ int main (int argc, char **argv)
 
 	/* proceso de la clave */
 	if (!cfg.key) {
-		cfg.key = (WORD *)getpass("Clave:");
+		char *aux;
+		cfg.key = (WORD *)strdup(getpass("Clave:"));
+		aux = getpass("Clave(otra vez):");
+		if (strcmp((char *)cfg.key, aux)) {
+			fprintf(stderr, "aes: "__FILE__"(%d): Son diferentes, terminando\n",
+				__LINE__);
+			exit(EXIT_FAILURE);
+		} /* if */
 	} /* if */
 	memset(theKey, '\0', sizeof theKey);
 	strncpy(theKey, (char *)cfg.key, cfg.Nk*AES_WS);
@@ -253,4 +260,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.2 2003/11/29 11:41:24 luis Exp $ */
+/* $Id: main.c,v 1.3 2003/11/29 22:02:04 luis Exp $ */

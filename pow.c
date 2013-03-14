@@ -1,5 +1,5 @@
-/* $Id: pow.c,v 1.4 2003/12/02 00:44:43 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: pow.c,v 1.5 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Wed Nov 12 01:01:06 MET 2003
  *
  * Disclaimer:
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char POW_C_RCSId[]="\n$Id: pow.c,v 1.4 2003/12/02 00:44:43 luis Exp $\n";
+static char POW_C_RCSId[]="\n$Id: pow.c,v 1.5 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -66,4 +66,4 @@ AES_INT aes_pow(AES_INT x, unsigned int n)
 	return a;
 } /* aes_pow */
 
-/* $Id: pow.c,v 1.4 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: pow.c,v 1.5 2013/03/14 13:53:43 luis Exp $ */

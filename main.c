@@ -1,5 +1,5 @@
-/* $Id: main.c,v 1.7 2003/12/08 22:21:32 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: main.c,v 1.8 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Fri Nov 28 21:48:59 MET 2003
  *
  * Disclaimer:
@@ -49,7 +49,7 @@
 /* prototypes */
 
 /* variables */
-static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.7 2003/12/08 22:21:32 luis Exp $\n";
+static char MAIN_C_RCSId[]="\n$Id: main.c,v 1.8 2013/03/14 13:53:43 luis Exp $\n";
 
 const char ext[] = ".rjndl";
 
@@ -181,13 +181,13 @@ void procesar(char *nomfich)
 		in = fopen(nomfich, "r");
 		if (!in) {
 			fprintf(stderr, "aes:"__FILE__"(%d):%s:%s(%d)\n",
-				__LINE__, nomfich, sys_errlist[errno], errno);
+				__LINE__, nomfich, strerror(errno), errno);
 			return;
 		} /* if */
 		out = fopen(nomout, "w");
 		if (!out) {
 			fprintf(stderr, "aes:"__FILE__"(%d):%s:%s(%d)\n",
-				__LINE__, nomout, sys_errlist[errno], errno);
+				__LINE__, nomout, strerror(errno), errno);
 			return;
 		} /* if */
 	} else {
@@ -355,4 +355,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: main.c,v 1.7 2003/12/08 22:21:32 luis Exp $ */
+/* $Id: main.c,v 1.8 2013/03/14 13:53:43 luis Exp $ */

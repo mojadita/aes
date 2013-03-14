@@ -1,5 +1,5 @@
-/* $Id: aes.c,v 1.13 2003/12/02 01:18:12 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: aes.c,v 1.14 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Tue Nov 11 00:24:20 MET 2003
  *
  * Disclaimer:
@@ -35,7 +35,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_C_RCSId[]="\n$Id: aes.c,v 1.13 2003/12/02 01:18:12 luis Exp $\n";
+static char AES_C_RCSId[]="\n$Id: aes.c,v 1.14 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -148,4 +148,4 @@ void aes_InvCipher(AES_BYTE *b, int Nb, int Nk, AES_BYTE *eKey)
 #endif
 } /* aes_InvCipher */
 
-/* $Id: aes.c,v 1.13 2003/12/02 01:18:12 luis Exp $ */
+/* $Id: aes.c,v 1.14 2013/03/14 13:53:43 luis Exp $ */

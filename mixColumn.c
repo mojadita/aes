@@ -1,5 +1,5 @@
-/* $Id: mixColumn.c,v 1.3 2003/12/02 00:44:43 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: mixColumn.c,v 1.4 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Wed Nov 26 19:28:42 MET 2003
  *
  * Disclaimer:
@@ -39,7 +39,7 @@
 /* prototypes */
 
 /* variables */
-static char MIXCOLUMN_C_RCSId[]="\n$Id: mixColumn.c,v 1.3 2003/12/02 00:44:43 luis Exp $\n";
+static char MIXCOLUMN_C_RCSId[]="\n$Id: mixColumn.c,v 1.4 2013/03/14 13:53:43 luis Exp $\n";
 
 static AES_BYTE pol1[] = { 0x02, 0x01, 0x01, 0x03 };
 static AES_BYTE pol2[] = { 0x0e, 0x09, 0x0d, 0x0b };
@@ -114,4 +114,4 @@ main()
 #endif
 
 	
-/* $Id: mixColumn.c,v 1.3 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: mixColumn.c,v 1.4 2013/03/14 13:53:43 luis Exp $ */

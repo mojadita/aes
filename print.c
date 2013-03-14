@@ -1,5 +1,5 @@
-/* $Id: print.c,v 1.4 2003/12/02 00:44:43 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: print.c,v 1.5 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Thu Nov 27 01:08:15 MET 2003
  *
  * Disclaimer:
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.4 2003/12/02 00:44:43 luis Exp $\n";
+static char PRINT_C_RCSId[]="\n$Id: print.c,v 1.5 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -68,4 +68,4 @@ void aes_PrintState(AES_BYTE *b, int Nb) /* test ok */
 
 } /* aes_PrintState */
 
-/* $Id: print.c,v 1.4 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: print.c,v 1.5 2013/03/14 13:53:43 luis Exp $ */

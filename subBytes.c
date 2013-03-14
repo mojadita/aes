@@ -1,5 +1,5 @@
-/* $Id: subBytes.c,v 1.5 2003/12/02 00:44:44 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: subBytes.c,v 1.6 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Wed Nov 12 23:39:22 MET 2003
  *
  * Disclaimer:
@@ -31,7 +31,7 @@
 /* prototypes */
 
 /* variables */
-static char SUBBYTES_C_RCSId[]="\n$Id: subBytes.c,v 1.5 2003/12/02 00:44:44 luis Exp $\n";
+static char SUBBYTES_C_RCSId[]="\n$Id: subBytes.c,v 1.6 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -106,4 +106,4 @@ void aes_InvSubBytes(AES_BYTE *b, int Nb) /* test ok */
 	} /* while */
 } /* aes_InvSubBytes */
 
-/* $Id: subBytes.c,v 1.5 2003/12/02 00:44:44 luis Exp $ */
+/* $Id: subBytes.c,v 1.6 2013/03/14 13:53:43 luis Exp $ */

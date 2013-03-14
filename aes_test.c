@@ -1,5 +1,5 @@
-/* $Id: aes_test.c,v 1.3 2003/12/02 01:19:38 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: aes_test.c,v 1.4 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Tue Dec  2 01:13:08 MET 2003
  *
  * Disclaimer:
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char AES_TEST_C_RCSId[]="\n$Id: aes_test.c,v 1.3 2003/12/02 01:19:38 luis Exp $\n";
+static char AES_TEST_C_RCSId[]="\n$Id: aes_test.c,v 1.4 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -124,4 +124,4 @@ main()
 
 } /* main */
 
-/* $Id: aes_test.c,v 1.3 2003/12/02 01:19:38 luis Exp $ */
+/* $Id: aes_test.c,v 1.4 2013/03/14 13:53:43 luis Exp $ */

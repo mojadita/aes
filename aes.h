@@ -1,5 +1,5 @@
-/* $Id: aes.h,v 1.14 2003/12/02 01:18:12 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: aes.h,v 1.15 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Tue Nov 11 00:25:04 MET 2003
  *
  * Disclaimer:
@@ -24,7 +24,7 @@
 #ifndef AES_H
 #define AES_H
 
-static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.14 2003/12/02 01:18:12 luis Exp $\n";
+static char AES_H_RCSId[] = "\n$Id: aes.h,v 1.15 2013/03/14 13:53:43 luis Exp $\n";
 
 /* constants */
 #define AES_MAX(x,y) (((x)>(y))?(x):(y))
@@ -63,4 +63,4 @@ void aes_InvCipher(AES_BYTE *b, int Nb, int Nk, AES_BYTE *eKey); /* test ok */
  * protected against double inclusion from other files.
  */
 
-/* $Id: aes.h,v 1.14 2003/12/02 01:18:12 luis Exp $ */
+/* $Id: aes.h,v 1.15 2013/03/14 13:53:43 luis Exp $ */

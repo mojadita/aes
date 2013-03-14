@@ -1,5 +1,5 @@
-/* $Id: shiftRows.c,v 1.6 2003/12/02 01:18:12 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: shiftRows.c,v 1.7 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Sun Nov 23 01:04:51 MET 2003
  *
  * Disclaimer:
@@ -23,6 +23,8 @@
 /* Standard include files */
 #include <sys/types.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "aes.h"
 
 /* constants */
@@ -32,7 +34,7 @@
 /* prototypes */
 
 /* variables */
-static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.6 2003/12/02 01:18:12 luis Exp $\n";
+static char SHIFTROWS_C_RCSId[]="\n$Id: shiftRows.c,v 1.7 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -142,4 +144,4 @@ void aes_InvShiftRows(AES_BYTE *b, int Nb)
 	} /* switch */
 } /* aes_InvShiftRows */
 
-/* $Id: shiftRows.c,v 1.6 2003/12/02 01:18:12 luis Exp $ */
+/* $Id: shiftRows.c,v 1.7 2013/03/14 13:53:43 luis Exp $ */

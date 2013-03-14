@@ -1,5 +1,5 @@
-/* $Id: keyExpansion.c,v 1.8 2003/12/02 00:44:43 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: keyExpansion.c,v 1.9 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Wed Nov 26 21:33:53 MET 2003
  *
  * Disclaimer:
@@ -23,6 +23,7 @@
 /* Standard include files */
 #include <sys/types.h>
 #include <malloc.h>
+#include <string.h>
 #include "aes.h"
 
 /* constants */
@@ -43,7 +44,7 @@
 /* prototypes */
 
 /* variables */
-static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.8 2003/12/02 00:44:43 luis Exp $\n";
+static char KEYEXPANSION_C_RCSId[]="\n$Id: keyExpansion.c,v 1.9 2013/03/14 13:53:43 luis Exp $\n";
 
 /* functions */
 
@@ -165,4 +166,4 @@ AES_BYTE *aes_KeyExpansion(AES_BYTE *k, int Nb, int Nk)
 	return res;
 } /* aes_KeyExpansion */
 
-/* $Id: keyExpansion.c,v 1.8 2003/12/02 00:44:43 luis Exp $ */
+/* $Id: keyExpansion.c,v 1.9 2013/03/14 13:53:43 luis Exp $ */

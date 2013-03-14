@@ -1,5 +1,5 @@
-/* $Id: b64.h,v 1.1 2003/12/08 22:07:18 luis Exp $
- * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
+/* $Id: b64.h,v 1.2 2013/03/14 13:53:43 luis Exp $
+ * Author: Luis Colorado <lc@luiscoloradosistemas.com>
  * Date: Sun Oct 12 17:30:47 MEST 2003
  *
  * Disclaimer:
@@ -24,7 +24,7 @@
 #ifndef B64_H
 #define B64_H
 
-static char B64_H_RCSId[] = "\n$Id: b64.h,v 1.1 2003/12/08 22:07:18 luis Exp $\n";
+static char B64_H_RCSId[] = "\n$Id: b64.h,v 1.2 2013/03/14 13:53:43 luis Exp $\n";
 
 /* constants */
 
@@ -47,4 +47,4 @@ size_t b64_decode_end(b64_st *, unsigned char *);
  * protected against double inclusion from other files.
  */
 
-/* $Id: b64.h,v 1.1 2003/12/08 22:07:18 luis Exp $ */
+/* $Id: b64.h,v 1.2 2013/03/14 13:53:43 luis Exp $ */

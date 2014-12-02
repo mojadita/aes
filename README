@@ -1,0 +1,10 @@
+Implementation of the AES/Rijndael encryption algorithm.
+
+Copyright (C) 2003-2014 Luis Colorado <lc@luiscoloradosistemas.com>
+This program is open source.  You can distribute it under the
+LGPL license v3.  Copies of the LGPL can be downloaded from
+www.gnu.org.
+
+It has been implemented for teaching purposes, so it has plenty
+of traces to output the stages of de/encryption.  You can play
+with it.

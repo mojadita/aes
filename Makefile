@@ -3,7 +3,7 @@
 # Date: Wed Nov 12 22:05:54 MET 2003
 
 LDFLAGS = -L.
-LIB_VERSION = 1.1.0
+LIB_VERSION = 1.1.1
 
 .SUFFIXES: .c .so .to
 .c.to:
